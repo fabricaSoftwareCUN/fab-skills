@@ -30,6 +30,7 @@ npx skills add fabricaSoftwareCUN/fab-skills --agent antigravity
 |-------|-------------|
 | [google-adk-cun](./google-adk-cun/) | Guia sobre Google Agent Development Kit (ADK). Creacion de agentes, herramientas, modelos, callbacks, streaming, graphs, despliegue y arquitectura. |
 | [memoria](./memoria/) | Protocolo para gestion de memoria en interacciones con el usuario. |
+| [plane-cun-api](./plane-cun-api/) | Administracion de workspaces en Plane (proyectos.cunapp.pro). Gestion de proyectos, work items, ciclos, modulos, paginas, epics y mas. Requiere `PLANE_API_KEY` y `PLANE_WORKSPACE_SLUG`. |
 
 ## Estructura
 
@@ -44,6 +45,10 @@ fab-skills/
       agente-base.md
   memoria/             # Skill de memoria
     SKILL.md
+  plane-cun-api/       # Skill de Plane API
+    SKILL.md
+    reference/
+      endpoints.md
   scripts/
     validate.sh        # Validacion de estructura
 ```

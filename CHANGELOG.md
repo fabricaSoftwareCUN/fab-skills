@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0] - 2026-05-22
+
+### Agregado
+- Skill `plane-cun-api`: administracion del workspace "vsd" en Plane (proyectos.cunapp.pro).
+  - SKILL.md con configuracion, prerequisitos de API key, reglas, autenticacion, paginacion, rate limiting y ejemplos.
+  - reference/endpoints.md con endpoints organizados alfabeticamente por recurso (13 secciones).
+
 ## [0.4.0] - 2026-05-22
 
 ### Agregado
