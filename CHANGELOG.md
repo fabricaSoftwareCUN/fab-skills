@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.8.1] - 2026-05-22
+
+### Cambiado
+- Skill `spec-driven-dev`: traducido `reference/spec-driven-original.md` de ingles a espanol para mantener consistencia de idioma en todo el repositorio.
+
 ## [0.8.0] - 2026-05-22
 
 ### Agregado
