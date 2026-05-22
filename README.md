@@ -2,8 +2,6 @@
 
 Coleccion de skills para agentes de inteligencia artificial de los proyectos CUN. Desplegable con [`npx skills`](https://www.skills.sh).
 
-[![skills.sh](https://skills.sh/b/fabricaSoftwareCUN/fab-skills)](https://skills.sh/fabricaSoftwareCUN/fab-skills)
-
 ## Instalacion
 
 ```bash
