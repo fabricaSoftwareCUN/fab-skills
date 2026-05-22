@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.7.0] - 2026-05-22
+
+### Agregado
+- Skill `spec-driven-dev`: guia de Spec-Driven Development basada en GitHub Spec Kit.
+  - Flujo de 3 fases: Especificar, Planificar, Tareas.
+  - Integracion documentada con artefactos nativos del agente (implementation_plan.md, task.md).
+  - Tabla de formatos de contratos por tipo de proyecto (OpenAPI, TS, SQL, gRPC, etc.).
+  - Plantillas mejoradas con criterios de terminado y dependencias.
+  - Secciones "Cuando NO usar" y gates de calidad.
+  - reference/spec-driven-original.md con documento fuente de GitHub Spec Kit.
+
 ## [0.6.0] - 2026-05-22
 
 ### Modificado

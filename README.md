@@ -29,6 +29,7 @@ npx skills add fabricaSoftwareCUN/fab-skills --agent antigravity
 | [google-adk-cun](./google-adk-cun/) | Guia sobre Google Agent Development Kit (ADK). Creacion de agentes, herramientas, modelos, callbacks, streaming, graphs, despliegue y arquitectura. |
 | [memoria](./memoria/) | Protocolo para gestion de memoria en interacciones con el usuario. |
 | [plane-cun-api](./plane-cun-api/) | Administracion de workspaces en Plane (proyectos.cunapp.pro). Gestion de proyectos, work items, ciclos, modulos, paginas, epics y mas. Requiere `PLANE_API_KEY` y `PLANE_WORKSPACE_SLUG`. |
+| [spec-driven-dev](./spec-driven-dev/) | Guia de Spec-Driven Development (SDD) basada en GitHub Spec Kit. Flujo de 3 fases: Especificar, Planificar, Tareas. Convierte ideas en specs ejecutables con trazabilidad completa. |
 
 ## Estructura
 
@@ -47,6 +48,10 @@ fab-skills/
     SKILL.md
     reference/
       endpoints.md
+  spec-driven-dev/     # Skill de SDD
+    SKILL.md
+    reference/
+      spec-driven-original.md
   scripts/
     validate.sh        # Validacion de estructura
 ```
