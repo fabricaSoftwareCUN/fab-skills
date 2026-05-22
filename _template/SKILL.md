@@ -5,7 +5,7 @@ description: Descripcion breve del skill.
 
 # Ejemplo - Nombre del Skill
 
-Descripcion general de lo que hace este skill y cuando debe activarse.
+Ejemplo de descripcion general de lo que hace este skill y cuando debe activarse.
 
 ## Como usarla
 
