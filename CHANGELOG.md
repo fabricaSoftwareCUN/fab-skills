@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.4.0] - 2026-05-22
+
+### Agregado
+- Skill `memoria`: protocolo para gestion de memoria en interacciones con el usuario.
+  - Identificacion de usuario, recuperacion de memoria, categorizacion de informacion y actualizacion del grafo de conocimiento.
+
 ## [0.3.0] - 2026-05-22
 
 ### Agregado

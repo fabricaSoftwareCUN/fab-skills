@@ -1,6 +1,6 @@
 # fab-skills
 
-Coleccion de skills para agentes de inteligencia artificial. Desplegable con [`npx skills`](https://www.skills.sh).
+Coleccion de skills para agentes de inteligencia artificial de los proyectos CUN. Desplegable con [`npx skills`](https://www.skills.sh).
 
 [![skills.sh](https://skills.sh/b/fabricaSoftwareCUN/fab-skills)](https://skills.sh/fabricaSoftwareCUN/fab-skills)
 
@@ -29,6 +29,7 @@ npx skills add fabricaSoftwareCUN/fab-skills --agent antigravity
 | Skill | Descripcion |
 |-------|-------------|
 | [google-adk-cun](./google-adk-cun/) | Guia sobre Google Agent Development Kit (ADK). Creacion de agentes, herramientas, modelos, callbacks, streaming, graphs, despliegue y arquitectura. |
+| [memoria](./memoria/) | Protocolo para gestion de memoria en interacciones con el usuario. |
 
 ## Estructura
 
@@ -37,10 +38,12 @@ Cada skill es una carpeta con un archivo `SKILL.md` que contiene metadatos (fron
 ```text
 fab-skills/
   _template/           # Plantilla base (no se distribuye)
-  google-adk-cun/      # Skill de ejemplo
+  google-adk-cun/      # Skill de Google ADK
     SKILL.md
     reference/
       agente-base.md
+  memoria/             # Skill de memoria
+    SKILL.md
   scripts/
     validate.sh        # Validacion de estructura
 ```
