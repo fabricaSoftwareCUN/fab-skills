@@ -8,7 +8,7 @@ license: MIT
 
 > **IMPORTANTE**: Esta skill requiere dos variables de entorno configuradas para funcionar.
 >
-> 1. **`PLANE_API_KEY`**: API Key válida de Plane. Solicítala al administrador de la instancia en proyectos.cunapp.pro.
+> 1. **`PLANE_API_KEY`**: API Key válida de Plane.
 > 2. **`PLANE_WORKSPACE_SLUG`**: Slug del workspace a administrar (ejemplo: `vsd`).
 > 3. Sin ambos valores, **ninguna operación de esta skill funcionará**.
 
@@ -32,7 +32,7 @@ license: MIT
 | Workspace | Variable de entorno `PLANE_WORKSPACE_SLUG` |
 | API Key   | Variable de entorno `PLANE_API_KEY` |
 
-Antes de ejecutar cualquier operación, verifica que ambas variables estén definidas. Si alguna falta, solicítala al usuario.
+Antes de ejecutar cualquier operación, verifica que ambas variables estén definidas en este documento en la seccion de configuracion. Si alguna falta o es generica, solicítala al usuario.
 
 ---
 
