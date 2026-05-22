@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.6.0] - 2026-05-22
+
+### Modificado
+- Skill `google-adk-cun`: mejoras operativas en SKILL.md.
+  - Nueva seccion "Regla de consulta obligatoria" con flujo de validacion en docs antes de codificar.
+  - Instruccion de consultar buenas-practicas.md antes de implementar agentes.
+
+### Agregado
+- `google-adk-cun/reference/buenas-practicas.md`: anti-patrones, convenciones para subagentes, contrato de estado, reglas de calidad, checklist de aceptacion y plantilla de implementacion.
+
 ## [0.5.0] - 2026-05-22
 
 ### Agregado

@@ -18,6 +18,18 @@ Identifica la tarea o interes del usuario y consulta la seccion tematica corresp
 - Lee los archivos de referencia locales (`reference/`) cuando el usuario trabaje con proyectos ADK de la CUN.
 - Prioriza proporcionar codigo de ejemplo en Python al explicar un concepto.
 - Si el usuario pregunta sobre la plantilla base de agente ADK para mesa de ayuda, carga `reference/agente-base.md`.
+- Consulta `reference/buenas-practicas.md` antes de implementar, modificar o revisar agentes ADK.
+
+## Regla de consulta obligatoria
+
+Antes de codificar cualquier componente ADK, sigue este flujo:
+
+1. Listar las fuentes de documentacion disponibles (secciones tematicas de esta skill).
+2. Cargar `llms.txt` o `llms-full.txt` de adk.dev segun la profundidad requerida.
+3. Consultar las paginas puntuales del tema (agentes, tools, callbacks, memory, eval, deploy).
+4. Implementar solo despues de validar en la documentacion oficial.
+
+Esta regla aplica cuando exista incertidumbre sobre APIs, compatibilidad de versiones, comportamiento de callbacks o patrones de integracion.
 
 ## Temas
 
@@ -122,3 +134,4 @@ Indice general de documentacion para agentes LLM.
 | Archivo | Descripcion |
 |---------|-------------|
 | [agente-base.md](./reference/agente-base.md) | Contexto operativo para la plantilla base de agente ADK (mesa de ayuda con Zoho Desk). Estructura, stack, variables de entorno, flujo de despliegue y convenciones. |
+| [buenas-practicas.md](./reference/buenas-practicas.md) | Anti-patrones prohibidos, convenciones para subagentes y checklist de aceptacion para cualquier agente ADK. |
