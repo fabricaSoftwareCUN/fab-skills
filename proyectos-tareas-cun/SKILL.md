@@ -1,5 +1,5 @@
 ---
-name: plane-cun-api
+name: proyectos-tareas-cun
 description: Administración de workspaces en la instancia Plane de proyectos.cunapp.pro. Usa esta skill para gestionar proyectos, work items, ciclos, módulos, páginas, epics, labels, estados, y demás recursos del workspace.
 license: MIT
 ---

@@ -28,7 +28,7 @@ npx skills add fabricaSoftwareCUN/fab-skills --agent antigravity
 |-------|-------------|
 | [google-adk-cun](./google-adk-cun/) | Guia sobre Google Agent Development Kit (ADK). Creacion de agentes, herramientas, modelos, callbacks, streaming, graphs, despliegue y arquitectura. |
 | [memoria](./memoria/) | Protocolo para gestion de memoria en interacciones con el usuario. |
-| [plane-cun-api](./plane-cun-api/) | Administracion de workspaces en Plane (proyectos.cunapp.pro). Gestion de proyectos, work items, ciclos, modulos, paginas, epics y mas. Requiere `PLANE_API_KEY` y `PLANE_WORKSPACE_SLUG`. |
+| [proyectos-tareas-cun](./proyectos-tareas-cun/) | Administracion de workspaces en Plane (proyectos.cunapp.pro). Gestion de proyectos, work items, ciclos, modulos, paginas, epics y mas. Requiere `PLANE_API_KEY` y `PLANE_WORKSPACE_SLUG`. |
 | [spec-driven-dev](./spec-driven-dev/) | Guia de Spec-Driven Development (SDD) basada en GitHub Spec Kit. Flujo de 3 fases: Especificar, Planificar, Tareas. Convierte ideas en specs ejecutables con trazabilidad completa. |
 | [ux-design](./ux-design/) | Principios de UX/UI y psicologia cognitiva aplicada al diseno. Leyes de UX, design tokens, accesibilidad WCAG 2.2, flujo de evaluacion y plantilla de design system. Principio fundamental de la Fabrica de Software CUN. |
 
@@ -45,7 +45,7 @@ fab-skills/
       agente-base.md
   memoria/             # Skill de memoria
     SKILL.md
-  plane-cun-api/       # Skill de Plane API
+  proyectos-tareas-cun/ # Skill de Proyectos y Tareas CUN
     SKILL.md
     reference/
       endpoints.md

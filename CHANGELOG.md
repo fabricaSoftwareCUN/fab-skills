@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.9.0] - 2026-05-22
+
+### Cambiado
+- Skill `plane-cun-api` renombrada a `proyectos-tareas-cun`. Carpeta, frontmatter y documentacion actualizados.
+
 ## [0.8.2] - 2026-05-22
 
 ### Corregido
