@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.8.0] - 2026-05-22
+
+### Agregado
+- Skill `ux-design`: principios de UX/UI y psicologia cognitiva aplicada al diseno de interfaces.
+  - Principio fundamental de la Fabrica de Software CUN.
+  - 10 leyes de UX fundamentales organizadas por categoria (toma de decisiones, percepcion, memoria, comportamiento).
+  - Principios de UI: jerarquia visual, Gestalt, grids, consistencia, responsive/mobile-first.
+  - Sistema de diseno: arquitectura de design tokens en 3 niveles (W3C), color, tipografia, espaciado, animacion.
+  - Accesibilidad: WCAG 2.2 AA como nivel minimo obligatorio.
+  - Flujo de trabajo de 4 pasos: Auditar, Diagnosticar, Proponer, Verificar.
+  - Gates de calidad: visual, interaccion, consistencia.
+  - Plantilla `design.md` para crear design systems desde cero.
+  - reference/leyes-ux.md: catalogo expandido de 20+ leyes con ejemplos practicos y CSS.
+
 ## [0.7.0] - 2026-05-22
 
 ### Agregado
