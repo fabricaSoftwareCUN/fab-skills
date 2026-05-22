@@ -1,9 +1,9 @@
 ---
-name: nombre-del-skill
+name: ejemplo-nombre-del-skill
 description: Descripcion breve del skill.
 ---
 
-# Nombre del Skill
+# Ejemplo - Nombre del Skill
 
 Descripcion general de lo que hace este skill y cuando debe activarse.
 
