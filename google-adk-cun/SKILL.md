@@ -27,9 +27,6 @@ Instalacion, guias rapidas y configuracion basica de agentes.
 
 - **Documentacion**: https://adk.dev/get-started/index.md
 - **Quickstart Python**: https://adk.dev/get-started/python/index.md
-- **Quickstart TypeScript**: https://adk.dev/get-started/typescript/index.md
-- **Quickstart Go**: https://adk.dev/get-started/go/index.md
-- **Quickstart Java**: https://adk.dev/get-started/java/index.md
 - **Vision general tecnica**: https://adk.dev/get-started/about/index.md
 
 ### 2. Agentes
@@ -48,15 +45,11 @@ Tipos de agentes: LLM, Workflow (Sequential, Parallel, Loop), Custom y Routed. C
 
 ### 3. Modelos
 
-Configuracion de modelos LLM: Gemini, Claude, LiteLLM, Ollama, vLLM, Gemma y routing de modelos.
+Configuracion de modelos LLM: Gemini, LiteLLM y routing de modelos.
 
 - **Referencia de modelos**: https://adk.dev/agents/models/index.md
 - **Gemini**: https://adk.dev/agents/models/google-gemini/index.md
-- **Claude (Anthropic)**: https://adk.dev/agents/models/anthropic/index.md
 - **LiteLLM**: https://adk.dev/agents/models/litellm/index.md
-- **Ollama**: https://adk.dev/agents/models/ollama/index.md
-- **vLLM**: https://adk.dev/agents/models/vllm/index.md
-- **Gemma**: https://adk.dev/agents/models/google-gemma/index.md
 - **Routing de modelos**: https://adk.dev/agents/models/routing/index.md
 
 ### 4. Herramientas
