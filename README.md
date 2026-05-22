@@ -36,18 +36,46 @@ Cada skill es una carpeta con un archivo `SKILL.md` que contiene metadatos (fron
 
 ```text
 fab-skills/
-  google-adk-cun/
+  _template/           # Plantilla base (no se distribuye)
+  google-adk-cun/      # Skill de ejemplo
     SKILL.md
     reference/
       agente-base.md
+  scripts/
+    validate.sh        # Validacion de estructura
+```
+
+### Estructura minima de un skill
+
+El archivo `SKILL.md` debe contener:
+
+1. **Frontmatter YAML** con campos obligatorios `name` y `description`.
+2. Al menos una seccion de contenido con instrucciones para el agente.
+3. El campo `name` debe coincidir con el nombre de la carpeta.
+
+## Crear un skill nuevo
+
+```bash
+cp -r _template/ mi-nuevo-skill/
+```
+
+Editar `mi-nuevo-skill/SKILL.md`: reemplazar `name`, `description` y el contenido placeholder.
+
+## Validacion
+
+Verifica que todos los skills cumplan la estructura requerida:
+
+```bash
+bash scripts/validate.sh
 ```
 
 ## Contribuir
 
-1. Crear una carpeta con el nombre del skill.
-2. Agregar un `SKILL.md` con frontmatter `name` y `description`.
+1. Copiar `_template/` con el nombre del skill.
+2. Editar `SKILL.md` con frontmatter `name` y `description`.
 3. Incluir archivos de referencia en `reference/`.
-4. Abrir un PR.
+4. Ejecutar `bash scripts/validate.sh` para verificar.
+5. Abrir un PR.
 
 ## Licencia
 

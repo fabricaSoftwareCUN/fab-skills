@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0] - 2026-05-22
+
+### Agregado
+- Plantilla base `_template/` con estructura minima de skill (SKILL.md + reference/).
+- Script `scripts/validate.sh` para validacion de estructura de skills.
+  - Verifica existencia de SKILL.md, frontmatter YAML, campos obligatorios y coincidencia de nombre.
+- README.md: secciones "Crear un skill nuevo", "Validacion" y estructura actualizada.
+
 ## [0.2.0] - 2026-05-21
 
 ### Modificado
