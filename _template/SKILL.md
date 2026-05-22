@@ -22,10 +22,10 @@ Instrucciones para que el agente sepa como navegar y usar este skill.
 
 Descripcion del tema y recursos asociados.
 
-- **Documentacion**: https://ejemplo.com/docs
+- **Documentacion**: https://docs.dominio.com/recurso
 
 ## Referencia local
 
 | Archivo | Descripcion |
 |---------|-------------|
-| [ejemplo.md](./reference/ejemplo.md) | Descripcion del archivo de referencia. |
+| [guia-inicio.md](./reference/guia-inicio.md) | Guia de inicio rapido con instrucciones operativas para el agente. |
