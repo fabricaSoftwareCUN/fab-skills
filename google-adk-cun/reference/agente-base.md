@@ -95,9 +95,4 @@ Configuración MCP:
 3. Verificar variables de entorno requeridas.
 4. Evitar exponer secretos o agregar hardcodes.
 5. Si toca orquestación, validar imports y orden de subagentes.
-6. Proponer pruebas de humo al final (arranque ADK + flujo básico).
-
-
-
-
-Crear templates
+6. Proponer pruebas de humo al final (arranque ADK + flujo basico).

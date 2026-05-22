@@ -2,33 +2,33 @@
 
 Coleccion de skills para agentes de inteligencia artificial. Desplegable con [`npx skills`](https://www.skills.sh).
 
-[![skills.sh](https://skills.sh/b/fab-cun/fab-skills)](https://skills.sh/fab-cun/fab-skills)
+[![skills.sh](https://skills.sh/b/fabricaSoftwareCUN/fab-skills)](https://skills.sh/fabricaSoftwareCUN/fab-skills)
 
 ## Instalacion
 
 ```bash
-npx skills add fab-cun/fab-skills
+npx skills add fabricaSoftwareCUN/fab-skills
 ```
 
 ### Instalar un skill especifico
 
 ```bash
-npx skills add fab-cun/fab-skills --skill google-adk-cun
+npx skills add fabricaSoftwareCUN/fab-skills --skill google-adk-cun
 ```
 
 ### Instalar para un agente especifico
 
 ```bash
-npx skills add fab-cun/fab-skills --agent claude-code
-npx skills add fab-cun/fab-skills --agent cursor
-npx skills add fab-cun/fab-skills --agent antigravity
+npx skills add fabricaSoftwareCUN/fab-skills --agent claude-code
+npx skills add fabricaSoftwareCUN/fab-skills --agent cursor
+npx skills add fabricaSoftwareCUN/fab-skills --agent antigravity
 ```
 
 ## Skills disponibles
 
 | Skill | Descripcion |
 |-------|-------------|
-| [google-adk-cun](./google-adk-cun/) | Guia sobre Google Agent Development Kit (ADK). Creacion de agentes, herramientas, callbacks, despliegue y arquitectura. |
+| [google-adk-cun](./google-adk-cun/) | Guia sobre Google Agent Development Kit (ADK). Creacion de agentes, herramientas, modelos, callbacks, streaming, graphs, despliegue y arquitectura. |
 
 ## Estructura
 
