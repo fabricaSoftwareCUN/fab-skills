@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.8.2] - 2026-05-22
+
+### Corregido
+- Skill `plane-cun-api`: corregidos errores de conexion reportados.
+  - Advertencia explicita: instancia self-hosted, no usar api.plane.so.
+  - Advertencia: no existen endpoints de work-items a nivel workspace (requieren project_id).
+  - Agregada seccion de verificacion de conexion con `GET /users/me/`.
+  - Agregado flujo operativo recomendado para consultar tareas del usuario.
+  - Endpoint `/users/me/` agregado a reference/endpoints.md.
+
 ## [0.8.1] - 2026-05-22
 
 ### Cambiado

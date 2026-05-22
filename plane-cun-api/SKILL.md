@@ -14,6 +14,16 @@ license: MIT
 
 ---
 
+## Instancia self-hosted
+
+> **ADVERTENCIA**: Esta instancia es self-hosted en `proyectos.cunapp.pro`.
+>
+> - **NO** usar `api.plane.so` ni ninguna URL del SaaS oficial de Plane. El token no funcionará.
+> - **NO** existen endpoints de work-items a nivel workspace. Rutas como `/workspaces/{slug}/issues/` o `/workspaces/{slug}/work-items/` devuelven `Page not found`.
+> - Los work-items **siempre** requieren un `project_id` en la ruta: `/workspaces/{slug}/projects/{project_id}/work-items/`.
+
+---
+
 ## Configuración
 
 | Parámetro | Valor |
@@ -40,6 +50,37 @@ Incluir en el header de cada request:
 ```
 X-API-Key: $PLANE_API_KEY
 ```
+
+---
+
+## Verificación de conexión
+
+Antes de cualquier operación, validar que la API key y la URL son correctas:
+
+```bash
+curl -s -o /dev/null -w "%{http_code}" \
+  -H "X-API-Key: $PLANE_API_KEY" \
+  "https://proyectos.cunapp.pro/api/v1/users/me/"
+```
+
+- **200**: conexión válida, proceder.
+- **401/403**: token inválido o expirado. Solicitar una nueva API key al usuario.
+- **Otro código**: problema de red o URL incorrecta.
+
+Si la verificación falla, **no continuar** con otras operaciones.
+
+---
+
+## Flujo operativo recomendado
+
+Para consultar tareas asignadas al usuario:
+
+1. Verificar conexión con `GET /api/v1/users/me/` (obtiene `id` del usuario).
+2. Listar proyectos con `GET /api/v1/workspaces/{slug}/projects/`.
+3. Para cada proyecto, listar work-items: `GET /api/v1/workspaces/{slug}/projects/{project_id}/work-items/`.
+4. Filtrar por `assignees` que contenga el `id` del usuario.
+
+No existe un endpoint global para "todas las tareas del workspace". Siempre se itera por proyecto.
 
 ---
 

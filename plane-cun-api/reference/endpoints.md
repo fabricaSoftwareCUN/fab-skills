@@ -3,6 +3,20 @@
 Referencia completa de endpoints organizados alfabéticamente por recurso.
 Base URL: `https://proyectos.cunapp.pro/api/v1/`
 
+> **IMPORTANTE**: No existen endpoints de work-items, issues ni search a nivel workspace.
+> Rutas como `/workspaces/{slug}/issues/` o `/workspaces/{slug}/work-items/` devuelven `Page not found`.
+> Los work-items siempre requieren `project_id` en la ruta.
+
+---
+
+## Authenticated User
+
+| Operación | Endpoint | Método |
+|-----------|----------|--------|
+| Obtener usuario autenticado | `/users/me/` | GET |
+
+Usar este endpoint para verificar conexión y obtener el `id` del usuario antes de cualquier operación.
+
 ---
 
 ## Attachments
