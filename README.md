@@ -26,6 +26,7 @@ npx skills add fabricaSoftwareCUN/fab-skills --agent antigravity
 
 | Skill | Descripcion |
 |-------|-------------|
+| [backend-nest-hexagonal-cun](./backend-nest-hexagonal-cun/) | Skill base para construir proyectos backend en NestJS aplicando Arquitectura Hexagonal, separacion por capas, reglas de dependencia, configuracion global, persistencia, documentacion Swagger y convenciones de estructura. |
 | [google-adk-cun](./google-adk-cun/) | Guia sobre Google Agent Development Kit (ADK). Creacion de agentes, herramientas, modelos, callbacks, streaming, graphs, despliegue y arquitectura. |
 | [memoria](./memoria/) | Protocolo para gestion de memoria en interacciones con el usuario. |
 | [proyectos-tareas-cun](./proyectos-tareas-cun/) | Administracion de workspaces en Plane (proyectos.cunapp.pro). Gestion de proyectos, work items, ciclos, modulos, paginas, epics y mas. Requiere `PLANE_API_KEY` y `PLANE_WORKSPACE_SLUG`. |
@@ -39,6 +40,12 @@ Cada skill es una carpeta con un archivo `SKILL.md` que contiene metadatos (fron
 ```text
 fab-skills/
   _template/           # Plantilla base (no se distribuye)
+  backend-nest-hexagonal-cun/ # Skill de NestJS Hexagonal
+    SKILL.md
+    references/
+      01-arquitectura-estructura.md
+      02-domain.md
+      ... (12 archivos de referencia)
   google-adk-cun/      # Skill de Google ADK
     SKILL.md
     reference/
