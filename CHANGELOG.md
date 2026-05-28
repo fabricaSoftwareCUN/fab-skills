@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.10.0] - 2026-05-28
+
+### Agregado
+- Skill `backend-nest-hexagonal-cun`: skill base para construir proyectos backend en NestJS con Arquitectura Hexagonal.
+  - SKILL.md con proposito, principio rector, reglas obligatorias, estructura minima y criterios de aceptacion.
+  - 12 archivos de referencia en `references/`: arquitectura, domain, application, infrastructure, settings, common, flujo de peticion, convenciones de nombrado, Swagger, imports, checklist de modulos y anti-patrones.
+- README.md: agregado skill a tabla de disponibles y arbol de estructura.
+
 ## [0.9.0] - 2026-05-22
 
 ### Cambiado
