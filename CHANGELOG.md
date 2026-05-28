@@ -6,7 +6,13 @@
 - Skill `backend-nest-hexagonal-cun`: skill base para construir proyectos backend en NestJS con Arquitectura Hexagonal.
   - SKILL.md con proposito, principio rector, reglas obligatorias, estructura minima y criterios de aceptacion.
   - 12 archivos de referencia en `references/`: arquitectura, domain, application, infrastructure, settings, common, flujo de peticion, convenciones de nombrado, Swagger, imports, checklist de modulos y anti-patrones.
-- README.md: agregado skill a tabla de disponibles y arbol de estructura.
+- Skill `front-angular-fab`: marco de trabajo para proyectos Front Angular Fabrica de Software CUN.
+  - SKILL.md con principios, flujo de trabajo, politica de referencias y criterios de calidad.
+  - 8 archivos de referencia en `references/`: arquitectura, componentes, formularios, HTTP, testing-jest, mocking, migracion y errores-reactivos.
+- README.md: actualizado con skills nuevos en tabla y arbol de estructura.
+
+### Eliminado
+- Skill `front-angular`: eliminada carpeta y sub-skills (angular-architect-fab, angular-component-fab, angular-jest-testing). Reemplazada por `front-angular-fab`.
 
 ## [0.9.0] - 2026-05-22
 
