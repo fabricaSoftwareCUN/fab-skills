@@ -137,6 +137,17 @@ src/
 3. Aplicar reglas de esta skill antes de implementar.
 4. Validar contra criterios de calidad.
 
+## Reglas de despliegue
+
+- El proyecto DEBE incluir un `Dockerfile` funcional con la imagen publica AWS del Tech Lead.
+- Incluir configuracion de **SonarQube** y `main.yml` para CI/CD.
+- `docker-compose.yml` y `*.sh` NUNCA deben subirse al repositorio.
+- Variables de entorno a nivel de contenedor/CI en formato `SNAKE_CASE`, sanitizadas y ordenadas.
+- La URL del frontend debe estar registrada en el [inventario de aplicaciones](https://vsdocs.cunapp.pro/doc/lista-de-aplicaciones-RDVFHUzKnm).
+- No se despliega a produccion sin [checklist aprobado](https://vsdocs.cunapp.pro/doc/checklist-paso-a-produccion-de-app-oLfWOcIlSP).
+- **No hay despliegues productivos los viernes** salvo aprobacion extraordinaria.
+- Consultar la referencia completa: [09-politica-despliegue.md](reference/09-politica-despliegue.md).
+
 ## Criterios de calidad
 
 - Coherencia con arquitectura FAB.
@@ -144,6 +155,9 @@ src/
 - Cobertura minima 85% con tests deterministas.
 - Sin APIs deprecadas (Angular o testing).
 - Consistencia de convenciones en nombres e imports.
+- Proyecto incluye `Dockerfile`, `sonar-project.properties` y `main.yml`.
+- `docker-compose.yml` y `*.sh` excluidos del repositorio.
+- Variables de entorno sanitizadas segun politica de despliegue.
 
 ## Referencia local
 
@@ -157,3 +171,4 @@ src/
 | [06-mocking-avanzado.md](reference/06-mocking-avanzado.md) | Factory functions, Faker determinista, patron de overrides, mocking de dependencias, anti-patrones |
 | [07-http-testing.md](reference/07-http-testing.md) | HttpClient moderno, httpResource, effects con errores, HttpTestingController, casos negativos |
 | [08-convenciones-codigo.md](reference/08-convenciones-codigo.md) | TypeScript strict, convencion de archivos, orden de imports, formularios, validacion de templates |
+| [09-politica-despliegue.md](reference/09-politica-despliegue.md) | Politica de despliegue CUN: Dockerfile, CI/CD, variables de entorno, proceso de solicitud, horarios, checklist produccion |
