@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.11.0] - 2026-05-28
+
+### Modificado
+- Skill `front-angular-fab`: reescritura completa de SKILL.md y referencias.
+  - SKILL.md: de 56 lineas (1.9 KB) a 159 lineas (5.5 KB). Consolidacion de 3 skills fuente (angular-architect-fab, angular-component-fab, angular-jest-testing).
+  - Eliminadas 8 refs stubs en `references/` (subcarpetas con archivos de 8 lineas).
+  - Creadas 8 refs sustanciales en `reference/` (singular): 3327 lineas, 84 KB total.
+    - `01-arquitectura-proyecto.md`: arquitectura FAB, estructura carpetas, 8 patrones, servicios, guards, checklist.
+    - `02-componentes.md`: standalone v20+, signal inputs/outputs, proyeccion contenido, hooks, control flow.
+    - `03-patrones-componentes.md`: model inputs, view/content queries, comunicacion, @defer, directivas, error boundaries.
+    - `04-testing-jest.md`: framework Jest, flujo generacion tests, cobertura 85%, HTTP, httpResource, effects.
+    - `05-migracion-jest.md`: guia Jasmine+Karma a Jest, dependencias, configuracion, patrones, ejemplo completo.
+    - `06-mocking-avanzado.md`: factory functions, Faker determinista, overrides, anti-patrones.
+    - `07-http-testing.md`: HttpClient moderno, httpResource, effects con errores, casos negativos.
+    - `08-convenciones-codigo.md`: TypeScript strict, archivos, imports, formularios, validacion templates.
+- Skill `backend-nest-hexagonal-cun`: carpeta de refs renombrada de `references/` a `reference/` (alineado con convencion). 12 rutas actualizadas en SKILL.md.
+- AGENTS.md: reescrito. Lista completa de 7 skills distribuidas. Frontmatter minimo incluye `license`. Regla explicita: `reference/` singular.
+- README.md: tabla de skills y arbol de estructura actualizados.
+- `_template/SKILL.md`: agregado `license: MIT` al frontmatter de ejemplo.
+
+### Corregido
+- Inconsistencia `references/` vs `reference/`: normalizado a singular en todas las skills.
+- AGENTS.md: decia "solo google-adk-cun se distribuye" cuando hay 7 skills activas.
+- Frontmatter: agregado `license: MIT` a `backend-nest-hexagonal-cun` y `google-adk-cun`.
+- LICENSE: copyright actualizado a `2025-2026`.
+
+
 ## [0.10.0] - 2026-05-28
 
 ### Agregado

@@ -1,6 +1,7 @@
 ---
 name: backend-nest-hexagonal-cun
 description: Skill base de la Fabrica de Software CUN para construir proyectos backend en NestJS aplicando Arquitectura Hexagonal, separación por capas, reglas de dependencia, configuración global, persistencia, documentación Swagger y convenciones de estructura.
+license: MIT
 ---
 
 # Skill base: Backend NestJS con Arquitectura Hexagonal de la Fabrica de Software CUN
@@ -25,18 +26,18 @@ Las dependencias siempre apuntan hacia el centro. El dominio nunca debe depender
 
 Antes de crear o modificar un proyecto backend, consulta las referencias según la funcionalidad requerida:
 
-1. [Arquitectura y estructura base](references/01-arquitectura-estructura.md)
-2. [Capa Domain](references/02-domain.md)
-3. [Capa Application](references/03-application.md)
-4. [Capa Infrastructure](references/04-infrastructure.md)
-5. [Settings, configuración y bases de datos](references/05-settings-bases-datos.md)
-6. [Common, adaptadores y recursos compartidos](references/06-common-adaptadores.md)
-7. [Flujo de petición y mapeo entre capas](references/07-flujo-peticion-mappers.md)
-8. [Convenciones de nombrado](references/08-convenciones-nombrado.md)
-9. [Swagger y documentación API](references/09-swagger-documentacion.md)
-10. [Reglas de imports y dependencias](references/10-imports-dependencias.md)
-11. [Checklist de creación de módulos](references/11-checklist-modulos.md)
-12. [Anti-patrones y buenas prácticas](references/12-antipatrones-buenas-practicas.md)
+1. [Arquitectura y estructura base](reference/01-arquitectura-estructura.md)
+2. [Capa Domain](reference/02-domain.md)
+3. [Capa Application](reference/03-application.md)
+4. [Capa Infrastructure](reference/04-infrastructure.md)
+5. [Settings, configuración y bases de datos](reference/05-settings-bases-datos.md)
+6. [Common, adaptadores y recursos compartidos](reference/06-common-adaptadores.md)
+7. [Flujo de petición y mapeo entre capas](reference/07-flujo-peticion-mappers.md)
+8. [Convenciones de nombrado](reference/08-convenciones-nombrado.md)
+9. [Swagger y documentación API](reference/09-swagger-documentacion.md)
+10. [Reglas de imports y dependencias](reference/10-imports-dependencias.md)
+11. [Checklist de creación de módulos](reference/11-checklist-modulos.md)
+12. [Anti-patrones y buenas prácticas](reference/12-antipatrones-buenas-practicas.md)
 
 ## Reglas obligatorias de alto nivel
 
