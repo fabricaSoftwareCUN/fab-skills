@@ -27,7 +27,7 @@ npx skills add fabricaSoftwareCUN/fab-skills --agent antigravity
 | Skill | Descripcion |
 |-------|-------------|
 | [backend-nest-hexagonal-cun](./backend-nest-hexagonal-cun/) | Skill base para construir proyectos backend en NestJS aplicando Arquitectura Hexagonal, separacion por capas, reglas de dependencia, configuracion global, persistencia, documentacion Swagger y convenciones de estructura. |
-| [front-angular-fab](./front-angular-fab/) | Marco de trabajo para proyectos Front Angular Fabrica de Software CUN. Arquitectura, componentes, formularios, HTTP, testing Jest, mocking, migracion y errores reactivos. |
+| [front-angular-fab](./front-angular-fab/) | Skill principal del ecosistema Front Angular CUN. Arquitectura FAB, componentes standalone v20+, signals, interceptores HTTP, testing Jest, migracion Jasmine-a-Jest, mocking avanzado con Faker, y convenciones de codigo. |
 | [google-adk-cun](./google-adk-cun/) | Guia sobre Google Agent Development Kit (ADK). Creacion de agentes, herramientas, modelos, callbacks, streaming, graphs, despliegue y arquitectura. |
 | [memoria](./memoria/) | Protocolo para gestion de memoria en interacciones con el usuario. |
 | [proyectos-tareas-cun](./proyectos-tareas-cun/) | Administracion de workspaces en Plane (proyectos.cunapp.pro). Gestion de proyectos, work items, ciclos, modulos, paginas, epics y mas. Requiere `PLANE_API_KEY` y `PLANE_WORKSPACE_SLUG`. |
@@ -43,16 +43,16 @@ fab-skills/
   _template/           # Plantilla base (no se distribuye)
   backend-nest-hexagonal-cun/ # Skill de NestJS Hexagonal
     SKILL.md
-    references/
+    reference/
       01-arquitectura-estructura.md
       02-domain.md
       ... (12 archivos de referencia)
   front-angular-fab/   # Skill de Front Angular
     SKILL.md
-    references/
-      arquitectura/ componentes/ formularios/
-      http/ testing-jest/ mocking/
-      migracion/ errores-reactivos/
+    reference/
+      01-arquitectura-proyecto.md
+      02-componentes.md
+      ... (8 archivos de referencia)
   google-adk-cun/      # Skill de Google ADK
     SKILL.md
     reference/

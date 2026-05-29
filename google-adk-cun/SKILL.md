@@ -1,6 +1,7 @@
 ---
 name: google-adk-cun
 description: Guia sobre el Google Agent Development Kit (ADK). Usa esta skill cuando el usuario pregunte sobre creacion de agentes, uso de herramientas, streaming, callbacks, tutoriales, despliegue o arquitectura con Google ADK.
+license: MIT
 ---
 
 # Skill de Google ADK

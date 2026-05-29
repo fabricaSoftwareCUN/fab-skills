@@ -1,6 +1,7 @@
 ---
 name: ejemplo-nombre-del-skill
 description: Descripcion breve del skill.
+license: MIT
 ---
 
 # Ejemplo - Nombre del Skill
