@@ -38,6 +38,7 @@ Antes de crear o modificar un proyecto backend, consulta las referencias según 
 10. [Reglas de imports y dependencias](reference/10-imports-dependencias.md)
 11. [Checklist de creación de módulos](reference/11-checklist-modulos.md)
 12. [Anti-patrones y buenas prácticas](reference/12-antipatrones-buenas-practicas.md)
+13. [Política de despliegue para aplicaciones](reference/13-politica-despliegue.md)
 
 ## Reglas obligatorias de alto nivel
 
@@ -51,6 +52,18 @@ Antes de crear o modificar un proyecto backend, consulta las referencias según 
 - Documentar la API desde infraestructura usando Swagger.
 - Centralizar configuración, bases de datos y logger en `infrastructure/settings`.
 - Centralizar guards, interceptors, decoradores, utilidades y adaptadores comunes en `infrastructure/common`.
+
+## Reglas de despliegue
+
+- El proyecto DEBE incluir un `Dockerfile` funcional con la imagen pública AWS del Tech Lead.
+- Incluir configuración de **SonarQube** y `main.yml` para CI/CD.
+- `docker-compose.yml` y `*.sh` NUNCA deben subirse al repositorio.
+- Variables de entorno en formato `SNAKE_CASE`, sanitizadas y organizadas por categoría.
+- Proyectos con Oracle: incluir `instant-client` en el Dockerfile con host `cundb01`.
+- El Swagger de la API debe estar registrado en el [inventario de aplicaciones](https://vsdocs.cunapp.pro/doc/lista-de-aplicaciones-RDVFHUzKnm).
+- No se despliega a producción sin [checklist aprobado](https://vsdocs.cunapp.pro/doc/checklist-paso-a-produccion-de-app-oLfWOcIlSP).
+- **No hay despliegues productivos los viernes** salvo aprobación extraordinaria.
+- Consultar la referencia completa: [13-politica-despliegue.md](reference/13-politica-despliegue.md).
 
 ## Estructura mínima esperada
 
@@ -78,3 +91,6 @@ Una implementación cumple la skill si:
 - Los repositorios concretos implementan contratos definidos hacia el centro.
 - Los DTOs de infraestructura validan y documentan la entrada.
 - Los mappers separan los modelos de cada capa.
+- El proyecto incluye `Dockerfile`, `sonar-project.properties` y `main.yml`.
+- `docker-compose.yml` y `*.sh` están excluidos del repositorio.
+- Las variables de entorno están sanitizadas según la política de despliegue.

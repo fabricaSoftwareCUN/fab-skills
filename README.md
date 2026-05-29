@@ -46,13 +46,13 @@ fab-skills/
     reference/
       01-arquitectura-estructura.md
       02-domain.md
-      ... (12 archivos de referencia)
+      ... (13 archivos de referencia)
   front-angular-fab/   # Skill de Front Angular
     SKILL.md
     reference/
       01-arquitectura-proyecto.md
       02-componentes.md
-      ... (8 archivos de referencia)
+      ... (9 archivos de referencia)
   google-adk-cun/      # Skill de Google ADK
     SKILL.md
     reference/

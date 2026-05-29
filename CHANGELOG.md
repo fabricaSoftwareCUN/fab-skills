@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.12.0] - 2026-05-29
+
+### Agregado
+- Skill `backend-nest-hexagonal-cun`: nueva referencia `reference/13-politica-despliegue.md`.
+  - Politica de despliegue CUN adaptada a backend: Dockerfile con imagen AWS, Oracle instant-client/cundb01, SonarQube, CI/CD, sanitizacion de variables de entorno, proceso de solicitud por correo, horarios, checklist pre-despliegue.
+  - SKILL.md: nueva seccion "Reglas de despliegue", criterios de aceptacion ampliados con requisitos de despliegue.
+- Skill `front-angular-fab`: nueva referencia `reference/09-politica-despliegue.md`.
+  - Politica de despliegue CUN adaptada a frontend Angular: Dockerfile, SonarQube, CI/CD, variables via environments + contenedor, proceso de solicitud, horarios, checklist pre-despliegue.
+  - SKILL.md: nueva seccion "Reglas de despliegue", criterios de calidad ampliados, tabla de referencia actualizada.
+- README.md: conteos de archivos de referencia actualizados (backend 13, frontend 9).
+
+### Fuente
+- Documento Outline: [Politica de despliegue para aplicaciones](https://vsdocs.cunapp.pro/doc/politica-de-despliegue-para-aplicaciones-BvLUFkkCQw).
+
 ## [0.11.0] - 2026-05-28
 
 ### Modificado
