@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.16.0] - 2026-08-08
+
+### Agregado
+- Politica de repositorios de la Fabrica de Software CUN: **monorepo prohibido**. Cada proyecto se organiza en hasta tres repositorios independientes, uno por tecnologia (`<proyecto>-back` NestJS, `<proyecto>-front` Angular, `<proyecto>-adk` agentes ADK). Se crean solo los que el proyecto necesite. La frontera es la tecnologia y no el numero de proyectos: un workspace Angular con la app y sus librerias Angular sigue siendo el repositorio de front y es valido. Tratamiento diferenciado: proyecto nuevo planteado como monorepo queda bloqueado; proyecto existente que ya es monorepo no bloquea el trabajo, pero se declara no conformidad y se registra la deuda de separacion en TASKS.md. La directiva se inserta en cinco puntos para que aplique tanto con el `AGENTS.md` base como con skills instaladas sueltas:
+  - `AGENTS_EJEMPLO.md`: primera viñeta de la seccion 8 (Git y repositorio). Fuente normativa.
+  - `README.md`: nueva seccion `## Politica de repositorios` con la tabla repositorio/tecnologia/skill y las cuatro reglas de aplicacion.
+  - `backend-nest-hexagonal-cun/SKILL.md`: viñeta en "Reglas obligatorias de alto nivel" y criterio en "Criterio de aceptacion".
+  - `front-angular-fab/SKILL.md`: subseccion "Un repositorio por tecnologia" al inicio de "Reglas de arquitectura" y criterio en "Criterios de calidad".
+  - `google-adk-cun/SKILL.md`: cuarta regla dura de la seccion "Uso obligatorio de agents-cli"; `agents-cli scaffold create` se ejecuta en `<proyecto>-adk`, nunca dentro del repositorio de front o back.
+
 ## [0.15.0] - 2026-08-08
 
 ### Agregado

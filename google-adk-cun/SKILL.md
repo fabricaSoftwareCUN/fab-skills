@@ -57,6 +57,7 @@ La skill se carga ANTES de empezar la fase, no cuando el problema ya aparecio.
 1. **No cambiar el modelo si nadie lo pidio.** El modelo del scaffold se eligio deliberadamente.
 2. **Cirugia.** Se toca solo lo que la peticion nombra, preservando configuracion (`model`, `version`, claves), comentarios y formato del entorno.
 3. **Nunca escribir pruebas unitarias que afirmen el contenido de una respuesta del LLM.** La salida es no determinista: el comportamiento se valida con `agents-cli eval` y un caso de evalset, y ese caso es la guarda que cierra el protocolo de depuracion.
+4. **Un repositorio por tecnologia. Monorepo prohibido.** El agente vive en `<proyecto>-adk`: `agents-cli scaffold create` se ejecuta en su propio repositorio, nunca dentro del repositorio de front (`<proyecto>-front`) ni del de back (`<proyecto>-back`). Proyecto nuevo planteado como monorepo: bloqueado. Proyecto existente que ya es monorepo: no bloquea el trabajo, pero se declara no conformidad y se registra la deuda de separacion en TASKS.md.
 
 ### Prohibiciones
 

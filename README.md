@@ -68,6 +68,25 @@ Reglas de instalacion:
 | [spec-driven-dev](./spec-driven-dev/) | Guia de Spec-Driven Development (SDD) basada en GitHub Spec Kit. Flujo de 3 fases: Especificar, Planificar, Tareas. **Obligatorio** si la tarea modifica codigo existente, afecta a mas de un archivo, altera contratos o APIs, o introduce logica nueva; exige PRD, historia de usuario o especificacion antes de desarrollar. |
 | [ux-design](./ux-design/) | Principios de UX/UI y psicologia cognitiva aplicada al diseno. Leyes de UX, design tokens, accesibilidad WCAG 2.2, flujo de evaluacion y plantilla de design system. Principio fundamental de la Fabrica de Software CUN. |
 
+## Politica de repositorios
+
+La Fabrica de Software CUN **prohibe el monorepo**. Cada proyecto se organiza en hasta tres repositorios independientes, uno por tecnologia:
+
+| Repositorio | Tecnologia | Skill que lo gobierna |
+|---|---|---|
+| `<proyecto>-back` | NestJS + Arquitectura Hexagonal | [backend-nest-hexagonal-cun](./backend-nest-hexagonal-cun/) |
+| `<proyecto>-front` | Angular + arquitectura FAB | [front-angular-fab](./front-angular-fab/) |
+| `<proyecto>-adk` | Agentes Google ADK | [google-adk-cun](./google-adk-cun/) |
+
+Reglas:
+
+- Se crean **solo los repositorios que el proyecto necesite**. Los tres son el catalogo maximo de dominios, no un minimo obligatorio: un proyecto sin agente no crea `-adk`.
+- Lo prohibido es **alojar dos tecnologias en el mismo repositorio**. La frontera es la tecnologia, no el numero de proyectos: un workspace Angular con la app y sus librerias Angular sigue siendo el repositorio de front y es valido.
+- **Proyecto nuevo** planteado como monorepo: bloqueado. Se propone la separacion antes de escribir codigo.
+- **Proyecto existente** que ya es monorepo: no bloquea el trabajo, pero se declara no conformidad y se registra la deuda de separacion en TASKS.md.
+
+La directiva normativa vive en la seccion 8 de [`AGENTS_EJEMPLO.md`](./AGENTS_EJEMPLO.md) y se replica como regla dura en las tres skills de dominio, de modo que sigue aplicandose cuando se instala una skill suelta con `--skill` sin el `AGENTS.md` base.
+
 ## Skills externas obligatorias
 
 Las cuatro skills CUN de `google-adk-cun`, `front-angular-fab`, `backend-nest-hexagonal-cun` y `spec-driven-dev` exigen, para aplicarse, que tambien esten instaladas las skills externas oficiales de sus respectivos proveedores. Esta seccion documenta cuales instalar y los comandos exactos.

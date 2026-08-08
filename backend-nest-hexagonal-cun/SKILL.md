@@ -54,6 +54,7 @@ Si la tarea introduce o modifica capacidad funcional, exige antes PRD, historia 
 
 ## Reglas obligatorias de alto nivel
 
+- **Un repositorio por tecnología. Monorepo prohibido.** El backend vive en su propio repositorio `<proyecto>-back` y no comparte repositorio con el front (`<proyecto>-front`) ni con el agente ADK (`<proyecto>-adk`). Proyecto nuevo planteado como monorepo: bloqueado. Proyecto existente que ya es monorepo: no bloquea el trabajo, pero se declara no conformidad y se registra la deuda de separación en TASKS.md.
 - Separar siempre el proyecto en `domain`, `application` e `infrastructure`.
 - Mantener `domain` libre de frameworks, ORM, validadores, Swagger y dependencias externas.
 - Implementar los casos de uso en `application`.
@@ -95,6 +96,7 @@ src/
 
 Una implementación cumple la skill si:
 
+- El backend vive en su propio repositorio `<proyecto>-back`; no comparte repositorio con front ni con el agente ADK.
 - El proyecto corre sobre NestJS 11 o superior.
 - La estructura y los artefactos se generaron con el CLI de Nest, no a mano.
 - El dominio contiene solo negocio puro.
