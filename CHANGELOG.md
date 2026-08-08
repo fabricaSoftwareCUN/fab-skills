@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.14.0] - 2026-08-07
+
+### Agregado
+- `AGENTS_EJEMPLO.md` en la raiz: plantilla de comportamiento del agente con 8 secciones (identidad, flujo de trabajo con paso 2 de insumo funcional, dominios con skill y CLI autorizados, memoria, razonamiento, subagentes, seguridad, git). Es la base que los proyectos CUN copian a su propio `AGENTS.md`; este repositorio conserva su `AGENTS.md` limitado a las convenciones del catalogo.
+- `README.md`: seccion `## Skills externas obligatorias` que documenta los comandos de instalacion para `google/agents-cli`, `figma/mcp-server-guide` (subconjunto de consumo de disenos) y `angular/skills` (solo `angular-developer`), con advertencia de no instalar `microsoft/playwright` y la clausula de precedencia frente a `front-angular-fab`.
+- `README.md`: el arbol de `## Estructura` menciona explicitamente `AGENTS.md` y `AGENTS_EJEMPLO.md` en la raiz.
+
+### Corregido
+- `AGENTS.md` restaurado al alcance de su versiom antes de la 0.13.0: las 4 secciones de convenciones del repositorio. El contenido de comportamiento del agente no desaparece: pasa a `AGENTS_EJEMPLO.md`. Los gates de CLI, pisos de version y SDD obligatorios viven en las cuatro skills distribuidas (`google-adk-cun`, `front-angular-fab`, `backend-nest-hexagonal-cun`, `spec-driven-dev`), que no se tocan.
+
 ## [0.13.0] - 2026-08-07
 
 ### Agregado

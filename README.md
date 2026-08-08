@@ -34,12 +34,72 @@ npx skills add fabricaSoftwareCUN/fab-skills --agent antigravity
 | [spec-driven-dev](./spec-driven-dev/) | Guia de Spec-Driven Development (SDD) basada en GitHub Spec Kit. Flujo de 3 fases: Especificar, Planificar, Tareas. **Obligatorio** si la tarea modifica codigo existente, afecta a mas de un archivo, altera contratos o APIs, o introduce logica nueva; exige PRD, historia de usuario o especificacion antes de desarrollar. |
 | [ux-design](./ux-design/) | Principios de UX/UI y psicologia cognitiva aplicada al diseno. Leyes de UX, design tokens, accesibilidad WCAG 2.2, flujo de evaluacion y plantilla de design system. Principio fundamental de la Fabrica de Software CUN. |
 
+## Skills externas obligatorias
+
+Las cuatro skills CUN de `google-adk-cun`, `front-angular-fab`, `backend-nest-hexagonal-cun` y `spec-driven-dev` exigen, para aplicarse, que tambien esten instaladas las skills externas oficiales de sus respectivos proveedores. Esta seccion documenta cuales instalar y los comandos exactos.
+
+Para inspeccionar el catalogo de un repositorio antes de instalar:
+
+```bash
+npx skills add <owner>/<repo> --list
+```
+
+### Google ADK — `google/agents-cli`
+
+Obligatorio para cualquier trabajo con ADK. Las propias skills exigen, ademas de estar instaladas, el binario `agents-cli`.
+
+```bash
+npx skills add google/agents-cli
+uv tool install google-agents-cli
+agents-cli setup
+```
+
+Las 7 skills de la suite (`google-agents-cli-workflow`, `-scaffold`, `-adk-code`, `-eval`, `-deploy`, `-publish`, `-observability`) **no se distribuyen desde fab-skills**: la suite no se trae con `npx skills add fabricaSoftwareCUN/fab-skills`.
+
+### Figma — subconjunto de consumo de diseños
+
+`figma/mcp-server-guide` distribuye 12 skills. Para leer disenos y consumir la API de Figma, este es el nucleo obligatorio:
+
+```bash
+npx skills add figma/mcp-server-guide --skill figma-design-to-code
+npx skills add figma/mcp-server-guide --skill figma-use
+npx skills add figma/mcp-server-guide --skill figma-code-connect
+```
+
+- `figma-design-to-code` se autodeclara prerrequisito obligatorio antes de `get_design_context`. No esta instalado por defecto; sin el, la lectura de disenos produce codigo de referencia que la skill no contextualiza.
+- `figma-use` es prerrequisito de cualquier `use_figma` que requiera JavaScript en el contexto del archivo.
+- `figma-code-connect` mapea componentes Figma a snippets del codebase y alimenta los hints de `get_design_context`.
+
+Las 9 restantes del repositorio son de escritura hacia Figma (`figma-generate-design`, `figma-generate-library`, `figma-generate-diagram`, `figma-create-new-file`, `figma-use-figjam`, `figma-use-slides`, `figma-use-motion`), de motion (`figma-implement-motion`) o especificas de iOS (`figma-swiftui`).
+
+### Angular — `angular-developer`
+
+```bash
+npx skills add angular/skills --skill angular-developer
+```
+
+`angular-new-app` **no se declara obligatoria**: su comando normativo prescribe `--ai-config=agents`, valor inexistente en Angular CLI v22, y omite `--file-name-style-guide=2016`, sin el cual `ng generate` produce archivos que incumplen las convenciones FAB. La creacion de proyectos la gobierna la propia skill `front-angular-fab`.
+
+**Precedencia**: `front-angular-fab` manda sobre `angular-developer` en arquitectura, nombrado, version minima y flags de `ng new` / `ng generate`. `angular-developer` aporta guia oficial del framework.
+
+### Playwright — no instalar; usa el MCP y `qa-and-testing`
+
+`microsoft/playwright` distribuye 4 skills (`playwright-dev`, `playwright-devops`, `playwright-test-results`, `playwright-triage`), pero todas son **internas de su propio monorepo**: `playwright-dev` cubre como contribuir al codigo de Playwright; `playwright-test-results` consulta el DuckDB del CI de Microsoft Playwright con `repository = "microsoft/playwright"` fijo en el codigo.
+
+No existe skill oficial para usar Playwright en proyectos ajenos. La automatizacion de navegador se cubre con el **servidor MCP `playwright`** (`browser_navigate`, `browser_click`, `browser_snapshot`, etc.). La ejecucion de pruebas queda fuera de esa skill: la skill `qa-and-testing` del ecosistema CUN cubre ese flujo.
+
+No ejecutes `npx skills add microsoft/playwright --skill playwright-dev`.
+
 ## Estructura
 
 Cada skill es una carpeta con un archivo `SKILL.md` que contiene metadatos (frontmatter YAML) e instrucciones para el agente. Opcionalmente incluye subcarpetas como `reference/`, `scripts/`, `examples/`.
 
+Ademas del catalogo, la raiz del repositorio contiene:
+
 ```text
 fab-skills/
+  AGENTS.md            # Reglas de trabajo sobre este repositorio
+  AGENTS_EJEMPLO.md    # Plantilla adoptable por proyectos CUN
   _template/           # Plantilla base (no se distribuye)
   backend-nest-hexagonal-cun/ # Skill de NestJS Hexagonal
     SKILL.md
