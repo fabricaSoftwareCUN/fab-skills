@@ -26,12 +26,12 @@ npx skills add fabricaSoftwareCUN/fab-skills --agent antigravity
 
 | Skill | Descripcion |
 |-------|-------------|
-| [backend-nest-hexagonal-cun](./backend-nest-hexagonal-cun/) | Skill base para construir proyectos backend en NestJS aplicando Arquitectura Hexagonal, separacion por capas, reglas de dependencia, configuracion global, persistencia, documentacion Swagger y convenciones de estructura. |
-| [front-angular-fab](./front-angular-fab/) | Skill principal del ecosistema Front Angular CUN. Arquitectura FAB, componentes standalone v20+, signals, interceptores HTTP, testing Jest, migracion Jasmine-a-Jest, mocking avanzado con Faker, y convenciones de codigo. |
-| [google-adk-cun](./google-adk-cun/) | Guia sobre Google Agent Development Kit (ADK). Creacion de agentes, herramientas, modelos, callbacks, streaming, graphs, despliegue y arquitectura. |
+| [backend-nest-hexagonal-cun](./backend-nest-hexagonal-cun/) | Skill base para construir proyectos backend en NestJS aplicando Arquitectura Hexagonal, separacion por capas, reglas de dependencia, configuracion global, persistencia, documentacion Swagger y convenciones de estructura. **NestJS 11+ y CLI de Nest obligatorios.** |
+| [front-angular-fab](./front-angular-fab/) | Skill principal del ecosistema Front Angular CUN. Arquitectura FAB, componentes standalone v22+, signals, interceptores HTTP, testing Jest, migracion Jasmine-a-Jest, mocking avanzado con Faker, y convenciones de codigo. **Angular 22+ y Angular CLI obligatorios (MCP `angular-cli` + `ng`).** |
+| [google-adk-cun](./google-adk-cun/) | Guia sobre Google Agent Development Kit (ADK). Creacion de agentes, herramientas, modelos, callbacks, streaming, graphs, despliegue y arquitectura. **`agents-cli` y la suite `google-agents-cli-*` obligatorios.** |
 | [memoria](./memoria/) | Protocolo para gestion de memoria en interacciones con el usuario. |
 | [proyectos-tareas-cun](./proyectos-tareas-cun/) | Administracion de workspaces en Plane (proyectos.cunapp.pro). Gestion de proyectos, work items, ciclos, modulos, paginas, epics y mas. Requiere `PLANE_API_KEY` y `PLANE_WORKSPACE_SLUG`. |
-| [spec-driven-dev](./spec-driven-dev/) | Guia de Spec-Driven Development (SDD) basada en GitHub Spec Kit. Flujo de 3 fases: Especificar, Planificar, Tareas. Convierte ideas en specs ejecutables con trazabilidad completa. |
+| [spec-driven-dev](./spec-driven-dev/) | Guia de Spec-Driven Development (SDD) basada en GitHub Spec Kit. Flujo de 3 fases: Especificar, Planificar, Tareas. **Obligatorio** si la tarea modifica codigo existente, afecta a mas de un archivo, altera contratos o APIs, o introduce logica nueva; exige PRD, historia de usuario o especificacion antes de desarrollar. |
 | [ux-design](./ux-design/) | Principios de UX/UI y psicologia cognitiva aplicada al diseno. Leyes de UX, design tokens, accesibilidad WCAG 2.2, flujo de evaluacion y plantilla de design system. Principio fundamental de la Fabrica de Software CUN. |
 
 ## Estructura
@@ -57,6 +57,7 @@ fab-skills/
     SKILL.md
     reference/
       agente-base.md
+      buenas-practicas.md
   memoria/             # Skill de memoria
     SKILL.md
   proyectos-tareas-cun/ # Skill de Proyectos y Tareas CUN

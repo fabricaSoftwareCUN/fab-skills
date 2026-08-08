@@ -7,7 +7,7 @@ Basada en las convenciones de `angular-architect-fab` y adaptada al contexto ins
 
 | Tecnologia | Proposito |
 |---|---|
-| Angular 17+ | Framework principal (componentes standalone) |
+| Angular 22+ | Framework principal (componentes standalone) |
 | Angular Material | Componentes UI base |
 | Bootstrap 5 | Grid y utilidades CSS |
 | Jest | Testing unitario |
@@ -72,7 +72,7 @@ src/
 
 ### 1. Componentes standalone
 
-Los componentes se crean como standalone por defecto. No se usa `standalone: true` explicitamente en Angular v20+.
+Los componentes se crean como standalone por defecto. No se usa `standalone: true` explicitamente en Angular v22+.
 
 ```typescript
 import { Component, ChangeDetectionStrategy } from '@angular/core';
@@ -589,19 +589,21 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 Verificacion obligatoria al iniciar un proyecto Angular para la Fabrica de Software CUN:
 
-1. [ ] Proyecto creado con `ng new` usando `--style=scss` y `--routing`
-2. [ ] TypeScript configurado en modo `strict`
-3. [ ] Estructura de carpetas `core/`, `shared/`, `modules/` creada
-4. [ ] Angular Material instalado y tema configurado
-5. [ ] Bootstrap 5 instalado (solo grid y utilidades)
-6. [ ] Jest configurado como test runner (reemplazando Karma)
-7. [ ] Archivos de environment creados (`environment.ts`, `environment.prod.ts`)
-8. [ ] `AuthService` implementado con login, logout, getToken, refreshToken
-9. [ ] `LoadingService` implementado con signals
-10. [ ] `ErrorService` implementado con handle y handleAlertHttp
-11. [ ] Interceptor de loading configurado
-12. [ ] Interceptor de autenticacion con refresh token configurado
-13. [ ] Guards de autenticacion (`authGuard`, `authLoggedGuard`) implementados
-14. [ ] Guard de roles (`roleGuard`) implementado
-15. [ ] Rutas principales configuradas con lazy loading
-16. [ ] Layout base con header, sidebar y footer creado
+1. [ ] Proyecto creado con `ng new` usando `--style=scss`, `--routing` y `--file-name-style-guide=2016`
+2. [ ] Angular 22 o superior verificado con `ng version` y `list_projects`
+3. [ ] Bloque `schematics` en `angular.json` con `type: component`, `style: scss` y `changeDetection: OnPush`
+4. [ ] TypeScript configurado en modo `strict`
+5. [ ] Estructura de carpetas `core/`, `shared/`, `modules/` creada
+6. [ ] Angular Material instalado y tema configurado
+7. [ ] Bootstrap 5 instalado (solo grid y utilidades)
+8. [ ] Jest configurado como test runner (reemplazando el runner del CLI)
+9. [ ] Archivos de environment creados (`environment.ts`, `environment.prod.ts`)
+10. [ ] `AuthService` implementado con login, logout, getToken, refreshToken
+11. [ ] `LoadingService` implementado con signals
+12. [ ] `ErrorService` implementado con handle y handleAlertHttp
+13. [ ] Interceptor de loading configurado
+14. [ ] Interceptor de autenticacion con refresh token configurado
+15. [ ] Guards de autenticacion (`authGuard`, `authLoggedGuard`) implementados
+16. [ ] Guard de roles (`roleGuard`) implementado
+17. [ ] Rutas principales configuradas con lazy loading
+18. [ ] Layout base con header, sidebar y footer creado

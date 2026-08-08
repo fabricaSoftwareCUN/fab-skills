@@ -5,7 +5,7 @@ Basada en `angular-component-fab` y adaptada al contexto institucional.
 
 ## Regla principal
 
-Los componentes son **standalone por defecto** en Angular v20+. No usar `standalone: true` explicitamente en el decorador `@Component`.
+Los componentes son **standalone por defecto** en Angular v22+. No usar `standalone: true` explicitamente en el decorador `@Component`.
 
 ## Generacion de componentes
 
@@ -27,7 +27,7 @@ Cada componente se divide en archivos independientes segun su responsabilidad:
 |---|---|
 | `.ts` | Logica, estado, inyeccion de dependencias, eventos |
 | `.html` | Plantilla declarativa, estructura del DOM |
-| `.css` / `.scss` | Estilos visuales, encapsulados por componente |
+| `.scss` | Estilos visuales, encapsulados por componente |
 | `.spec.ts` | Pruebas unitarias con Jest |
 
 ## Reglas estrictas
