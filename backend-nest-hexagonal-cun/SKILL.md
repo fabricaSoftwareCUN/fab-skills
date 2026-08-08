@@ -1,6 +1,6 @@
 ---
 name: backend-nest-hexagonal-cun
-description: Skill base de la Fabrica de Software CUN para construir proyectos backend en NestJS aplicando Arquitectura Hexagonal, separación por capas, reglas de dependencia, configuración global, persistencia, documentación Swagger y convenciones de estructura.
+description: Skill base de la Fabrica de Software CUN para construir proyectos backend en NestJS aplicando Arquitectura Hexagonal, separación por capas, reglas de dependencia, configuración global, persistencia, documentación Swagger y convenciones de estructura. NestJS 11+ es obligatorio y la estructura se genera con el CLI de Nest.
 license: MIT
 ---
 
@@ -39,6 +39,18 @@ Antes de crear o modificar un proyecto backend, consulta las referencias según 
 11. [Checklist de creación de módulos](reference/11-checklist-modulos.md)
 12. [Anti-patrones y buenas prácticas](reference/12-antipatrones-buenas-practicas.md)
 13. [Política de despliegue para aplicaciones](reference/13-politica-despliegue.md)
+
+## Uso obligatorio del CLI de NestJS
+
+- Version minima: **NestJS 11**. Verificar como primera accion en `package.json` (`@nestjs/core`) y con `nest --version`. Proyecto nuevo por debajo de 11 esta prohibido; proyecto existente no bloquea el trabajo pero genera advertencia de no conformidad y deuda registrada.
+- El CLI es `@nestjs/cli` (binario `nest`). Si no esta disponible: `npm i -g @nestjs/cli`.
+- Prohibido crear a mano lo que el CLI genera: proyectos con `nest new`, y modulos, controladores, servicios, guards, interceptores y pipes con `nest generate`.
+- El CLI genera la estructura por defecto de NestJS, no la hexagonal. Tras generar, los archivos se reubican en `domain`, `application` e `infrastructure` conforme a [01-arquitectura-estructura.md](reference/01-arquitectura-estructura.md). La regla de dependencias prevalece sobre la disposicion por defecto del CLI.
+- Descubrir opciones de un schematic con `nest generate <schematic> --help` antes de usarlo. Prohibido improvisar flags.
+
+## Gate de especificacion
+
+Si la tarea introduce o modifica capacidad funcional, exige antes PRD, historia de usuario o especificacion escrita, y aplica Spec-Driven Development conforme a la skill `spec-driven-dev`. SDD es obligatorio cuando la tarea modifica codigo existente, afecta a mas de un archivo, altera contratos o APIs, o introduce logica algoritmica o condicional nueva. Un cambio de contrato en `domain` o en un DTO de infraestructura cumple el tercer disparador por definicion.
 
 ## Reglas obligatorias de alto nivel
 
@@ -83,6 +95,8 @@ src/
 
 Una implementación cumple la skill si:
 
+- El proyecto corre sobre NestJS 11 o superior.
+- La estructura y los artefactos se generaron con el CLI de Nest, no a mano.
 - El dominio contiene solo negocio puro.
 - La aplicación orquesta casos de uso sin conocer tecnología concreta.
 - La infraestructura adapta HTTP, bases de datos, servicios externos y configuración.

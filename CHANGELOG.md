@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.13.0] - 2026-08-07
+
+### Agregado
+- `AGENTS.md`: reconstruido sobre la base de comportamiento del agente (8 secciones) conservando las convenciones del repositorio como seccion 9.
+  - Nuevo paso 2 del flujo de trabajo, **Insumo funcional**: antes de desarrollar una feature se exige PRD, historia de usuario o especificacion escrita. Sin ese insumo no se escribe codigo; si el usuario no lo aporta, se redacta un borrador con la fase 1 de `spec-driven-dev` y se espera aprobacion explicita.
+  - Nueva subseccion **Dominios con skill y CLI autorizados**: Angular (`front-angular-fab`, MCP `angular-cli` + `ng`, piso 22+), NestJS (`backend-nest-hexagonal-cun`, `@nestjs/cli`, piso 11+) y ADK (`google-adk-cun` + suite `google-agents-cli-*`, `agents-cli`), con reglas duras por dominio.
+- Skill `google-adk-cun`: seccion "Uso obligatorio de agents-cli" (prerrequisito, tabla fase/skill/comando, tres reglas duras y prohibiciones) y seccion "Comandos rapidos" con los 14 comandos del CLI.
+- Skill `front-angular-fab`: seccion "Uso obligatorio del Angular CLI" con jerarquia MCP/`ng`, verificacion de version, defaults obligatorios de schematics (`ng new --file-name-style-guide=2016` y bloque `schematics` en `angular.json`) y regla de degradacion sin MCP.
+- Skill `backend-nest-hexagonal-cun`: secciones "Uso obligatorio del CLI de NestJS" y "Gate de especificacion".
+- Skill `spec-driven-dev`: seccion "Aplicacion obligatoria" con los cuatro disparadores de riesgo y el gate de insumo funcional previo.
+
+### Modificado
+- Piso de version **Angular 22+** en `front-angular-fab`: frontmatter, principio 6 nuevo, stack tecnologico, patrones, tabla de referencias y las referencias 01, 02 y 05. Proyecto nuevo por debajo de 22 queda prohibido; proyecto existente genera advertencia de no conformidad y deuda.
+- Piso de version **NestJS 11+** en `backend-nest-hexagonal-cun`: frontmatter y criterios de aceptacion.
+- SDD deja de ser opcional: el criterio de activacion pasa de estimacion de esfuerzo a cuatro criterios de riesgo verificables en el diff.
+- `reference/01-arquitectura-proyecto.md`: checklist de nuevo proyecto ampliado con verificacion de version y bloque `schematics`; numeracion corregida.
+- `README.md`: tabla de skills alineada con las descripciones nuevas; arbol de estructura completado con `buenas-practicas.md`.
+
+### Corregido
+- `front-angular-fab/reference/05-migracion-jest.md`: las dependencias eran incompatibles con Angular 22. `jest@^29.7.0` -> `^30.0.0`, `jest-preset-angular@^14.4.0` -> `^17.0.0`, `@types/jest@^29.5.0` -> `^30.0.0`, `@angular-builders/jest@^17.0.0` -> `^22.0.0`, `@faker-js/faker@^9.0.0` -> `^10.0.0`.
+- `front-angular-fab/reference/05-migracion-jest.md`: la clave de configuracion era `setupFilesAfterSetup`, que no existe en Jest. Corregida a `setupFilesAfterEnv`; tal como estaba, el archivo de setup nunca se ejecutaba.
+- `front-angular-fab/SKILL.md`: contradiccion de extension de estilos. Declaraba `.css` mientras las 26 ocurrencias de `reference/` usaban `.scss`. Normalizado a `.scss` en principio 1, arbol de carpetas y criterios de calidad.
+- `spec-driven-dev/SKILL.md`: referencia rota a la skill `desarrollo`, que no se distribuye en este catalogo.
+- `spec-driven-dev/SKILL.md`: retirada la fila "Proyecto CUN con trazabilidad formal", cuyo disparador no estaba definido en ninguna parte y por tanto nunca se activaba.
+- `AGENTS.md`: referencia cruzada de la seccion 6 al gate de pruebas, desplazada por la insercion del paso 2.
+
 ## [0.12.0] - 2026-05-29
 
 ### Agregado

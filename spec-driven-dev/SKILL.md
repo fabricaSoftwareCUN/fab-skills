@@ -3,7 +3,9 @@ name: spec-driven-dev
 description: |
   Guía de Spec-Driven Development (SDD) basada en GitHub Spec Kit.
   Convierte ideas en especificaciones ejecutables, plan técnico y tareas trazables.
-  Use when: crear features nuevas, cambios grandes, refactors complejos, o cuando se requiera alinear negocio + arquitectura + implementacion.
+  SDD es obligatorio cuando la tarea modifica codigo existente, afecta a mas de un
+  archivo, altera contratos o APIs, o introduce logica algoritmica o condicional nueva.
+  Antes de desarrollar una feature se exige PRD, historia de usuario o especificacion escrita.
 license: MIT
 metadata:
   version: "1.1.0"
@@ -18,7 +20,26 @@ Esta skill aplica SDD: la especificación es la fuente de verdad y el código es
 
 Referencia completa del documento original: `reference/spec-driven-original.md`.
 
+## Aplicacion obligatoria
+
+SDD no es opcional. Se activa cuando la tarea cumple **al menos uno** de estos cuatro disparadores:
+
+1. Modifica codigo existente.
+2. Afecta a mas de un archivo.
+3. Altera contratos o APIs.
+4. Introduce logica algoritmica o condicional nueva.
+
+Son criterios de riesgo, verificables leyendo el diff. No se sustituyen por estimaciones de esfuerzo ni por la percepcion de que el cambio es pequeno.
+
+### Insumo funcional previo
+
+Antes de iniciar el desarrollo de una feature se exige PRD, historia de usuario o especificacion escrita. Feature = trabajo que introduce o modifica capacidad funcional y cumple al menos uno de los cuatro disparadores.
+
+Si el insumo no existe: no se escribe codigo. Se solicita al usuario. Si el usuario no lo aporta, se redacta un borrador con la Fase 1 en `specs/<feature>/spec.md`, se marcan las ambiguedades con `[NEEDS CLARIFICATION: pregunta concreta]` y se espera **aprobacion explicita** antes de implementar.
+
 ## Cuando usar
+
+Ademas de los disparadores obligatorios, SDD aporta valor en:
 
 - Features nuevas con alcance mediano o grande
 - Requisitos ambiguos que necesitan refinamiento
@@ -27,13 +48,13 @@ Referencia completa del documento original: `reference/spec-driven-original.md`.
 
 ## Cuando NO usar
 
-- Tareas estimadas en menos de 4 horas de trabajo
-- Fixes puntuales, bugs con causa conocida y solucion directa
-- Cambios cosmeticos (estilos, textos, formatos)
-- Scripts one-shot o utilitarios desechables
-- Ajustes de configuracion sin impacto funcional
+Queda exento unicamente lo que no cumple ninguno de los cuatro disparadores:
 
-En estos casos, aplicar directamente las reglas de la skill `desarrollo` sin generar artefactos SDD.
+- Cambios de documentacion, textos y traducciones
+- Cambios cosmeticos que no tocan logica
+- Scripts one-shot o utilitarios desechables fuera del arbol del proyecto
+
+En estos casos se aplican las reglas generales del proyecto sin generar artefactos SDD. Un fix puntual no queda exento por ser pequeno: si modifica codigo existente, el disparador 1 aplica.
 
 ## Principios centrales
 
@@ -52,7 +73,6 @@ El agente puede operar con dos sistemas de artefactos. La eleccion depende del a
 |---|---|---|
 | Feature individual dentro de una sesion | Nativos: `implementation_plan.md`, `task.md`, `walkthrough.md` | Directorio de artefactos del agente |
 | Feature compleja o proyecto multi-feature | SDD: `spec.md`, `plan.md`, `tasks.md` | `specs/<feature>/` en el repositorio |
-| Proyecto CUN con trazabilidad formal | SDD obligatorio | `specs/<feature>/` en el repositorio |
 
 Reglas de convivencia:
 - Si se usa SDD, los artefactos nativos (`implementation_plan.md`, `task.md`) se generan **a partir** de los artefactos SDD, no en paralelo.

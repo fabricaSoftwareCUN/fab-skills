@@ -1,4 +1,4 @@
-# Migracion de Jasmine + Karma a Jest (Angular 17+)
+# Migracion de Jasmine + Karma a Jest (Angular 22+)
 
 Guia paso a paso para migrar un proyecto Angular de Jasmine + Karma a Jest.
 
@@ -27,16 +27,19 @@ Instalar Jest y sus complementos para Angular:
 
 ```bash
 npm install --save-dev \
-  jest@^29.7.0 \
-  jest-preset-angular@^14.4.0 \
-  @types/jest@^29.5.0 \
+  jest@^30.0.0 \
+  jest-preset-angular@^17.0.0 \
+  @types/jest@^30.0.0 \
   ts-node@^10.9.0
 ```
+
+> Las versiones son las exigidas por Angular 22: `jest-preset-angular@17` declara peer
+> `@angular/core >=20.0.0 <23.0.0` y `jest ^30.0.0`. Bajar cualquiera de los tres rompe la resolucion.
 
 Para generacion de datos de prueba (opcional pero recomendado):
 
 ```bash
-npm install --save-dev @faker-js/faker@^9.0.0
+npm install --save-dev @faker-js/faker@^10.0.0
 ```
 
 ---
@@ -52,7 +55,7 @@ import type { Config } from 'jest';
 
 const config: Config = {
   preset: 'jest-preset-angular',
-  setupFilesAfterSetup: ['<rootDir>/src/setup-jest.ts'],
+  setupFilesAfterEnv: ['<rootDir>/src/setup-jest.ts'],
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
     '<rootDir>/dist/',
@@ -95,8 +98,8 @@ setupZonelessTestEnv({
 });
 ```
 
-> **Nota**: se usa `setupZonelessTestEnv` en lugar de `setupZoneTestEnv` para proyectos
-> Angular 17+ que operan sin Zone.js.
+> **Nota**: se usa `setupZonelessTestEnv` en lugar de `setupZoneTestEnv` porque los proyectos
+> operan sin Zone.js. Reservar `setupZoneTestEnv` unicamente para proyectos que aun dependan de Zone.js.
 
 ### angular.json
 
@@ -122,7 +125,7 @@ Cambiar el builder de test en `angular.json`:
 Instalar el builder:
 
 ```bash
-npm install --save-dev @angular-builders/jest@^17.0.0
+npm install --save-dev @angular-builders/jest@^22.0.0
 ```
 
 ### package.json scripts
@@ -345,7 +348,7 @@ describe('UserService', () => {
 });
 ```
 
-### Despues (Jest + Angular 17+)
+### Despues (Jest + Angular 22+)
 
 ```typescript
 import { TestBed, ApplicationRef } from '@angular/core/testing';
