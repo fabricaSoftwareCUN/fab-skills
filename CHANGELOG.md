@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.15.0] - 2026-08-08
+
+### Agregado
+- Skill `qa-and-testing`: protocolo de pruebas y calidad del codigo para proyectos CUN. SKILL.md preserva el cuerpo original (rol Ingeniero de QA Senior, 3 pasos, formato de salida) y anade una seccion "Activacion obligatoria" con dos gates duros: cierre de feature (estado `review`) y pre-PR (`git push` o solicitud de PR). Disparadores verificables en el diff, exenciones explicitas (documentacion, cosmeticos, one-shot), insumo previo (codigo, diff, spec, comandos del proyecto) y contrato de salida del handoff con veredicto `APTO`/`NO APTO` y firma explicita. Frontmatter ampliado con `description` de obligatoriedad y bloque `metadata` (`version`, `category`, `sources`).
+- Skill `qa-and-testing/reference/qa-checklist-cierre.md`: checklist operativo de los dos gates. Gate de cierre (cobertura >=85%, linter, build, contratos, criterios de aceptacion, trazabilidad) y Gate pre-PR (sincronizacion documental, estado del repo, validaciones externas, seguridad y compliance, handoff al PR). Incluye flujo operativo de los dos gates y su relacion con `spec-driven-dev`, las skills de framework y `memoria`.
+
+- `README.md`: nueva subseccion `### Instalar AGENTS_EJEMPLO.md (obligatorio)` en `## Instalacion`. Documenta que el archivo no lo distribuye `npx skills` por ser de raiz y no un skill, y da los comandos de instalacion para los dos alcances: global (`~/.config/opencode/AGENTS.md`, `~/.claude/CLAUDE.md`) y de repositorio (`AGENTS.md` en la raiz del proyecto). Incluye cuatro reglas de instalacion: renombrado obligatorio a `AGENTS.md`, prohibicion de sobrescribir a ciegas, acumulacion de alcances con precedencia del repositorio sobre el global, y ajuste de secciones dependientes del proyecto antes de la primera sesion.
+
+### Modificado
+- `README.md`: nueva fila `qa-and-testing` en la tabla de skills disponibles (descripcion con clausula de obligatoriedad al cerrar feature y antes de PR) y nuevo bloque `qa-and-testing/` con su referencia en el arbol de `## Estructura`.
+- `README.md`: comentario de `AGENTS_EJEMPLO.md` en el arbol de `## Estructura` ampliado para advertir que no se distribuye y remitir a la seccion de instalacion.
+- `AGENTS.md`: anadida `qa-and-testing` a la lista de skills distribuidas.
+
 ## [0.14.0] - 2026-08-07
 
 ### Agregado

@@ -22,6 +22,39 @@ npx skills add fabricaSoftwareCUN/fab-skills --agent cursor
 npx skills add fabricaSoftwareCUN/fab-skills --agent antigravity
 ```
 
+### Instalar AGENTS_EJEMPLO.md (obligatorio)
+
+`AGENTS_EJEMPLO.md` es un archivo de la raiz del repositorio, **no un skill**: `npx skills add` no lo distribuye. Las skills describen dominios (Angular, NestJS, ADK, QA); `AGENTS_EJEMPLO.md` describe el comportamiento base del agente que las invoca. Sin el, las skills se instalan pero nadie obliga a usarlas.
+
+Instalalo en uno de los dos alcances, segun a que quieras que aplique:
+
+**Alcance global** — aplica a todas las sesiones del agente, en cualquier proyecto. Recomendado para el equipo CUN.
+
+```bash
+# opencode
+curl -fsSL https://raw.githubusercontent.com/fabricaSoftwareCUN/fab-skills/main/AGENTS_EJEMPLO.md \
+  -o ~/.config/opencode/AGENTS.md
+
+# claude-code
+curl -fsSL https://raw.githubusercontent.com/fabricaSoftwareCUN/fab-skills/main/AGENTS_EJEMPLO.md \
+  -o ~/.claude/CLAUDE.md
+```
+
+**Alcance de repositorio** — aplica solo al proyecto en curso y viaja versionado con el. Recomendado cuando el proyecto necesita reglas propias que difieren del estandar CUN.
+
+```bash
+# desde la raiz del repositorio de trabajo
+curl -fsSL https://raw.githubusercontent.com/fabricaSoftwareCUN/fab-skills/main/AGENTS_EJEMPLO.md \
+  -o AGENTS.md
+```
+
+Reglas de instalacion:
+
+- El archivo se instala **siempre con el nombre `AGENTS.md`** (o el que use tu agente), nunca como `AGENTS_EJEMPLO.md`. El sufijo `_EJEMPLO` solo existe en este catalogo para no colisionar con el `AGENTS.md` propio del repositorio.
+- Si ya existe un `AGENTS.md` en el destino, **no lo sobrescribas a ciegas**: fusiona las secciones e integra las reglas que falten.
+- Los dos alcances son compatibles y se acumulan. Ante conflicto, el `AGENTS.md` del repositorio manda sobre el global.
+- Tras instalarlo, ajusta las secciones que dependan del proyecto (rutas, comandos de test, dominios activos) antes de la primera sesion.
+
 ## Skills disponibles
 
 | Skill | Descripcion |
@@ -31,6 +64,7 @@ npx skills add fabricaSoftwareCUN/fab-skills --agent antigravity
 | [google-adk-cun](./google-adk-cun/) | Guia sobre Google Agent Development Kit (ADK). Creacion de agentes, herramientas, modelos, callbacks, streaming, graphs, despliegue y arquitectura. **`agents-cli` y la suite `google-agents-cli-*` obligatorios.** |
 | [memoria](./memoria/) | Protocolo para gestion de memoria en interacciones con el usuario. |
 | [proyectos-tareas-cun](./proyectos-tareas-cun/) | Administracion de workspaces en Plane (proyectos.cunapp.pro). Gestion de proyectos, work items, ciclos, modulos, paginas, epics y mas. Requiere `PLANE_API_KEY` y `PLANE_WORKSPACE_SLUG`. |
+| [qa-and-testing](./qa-and-testing/) | Protocolo de pruebas y calidad del codigo para proyectos CUN. Actua como Ingeniero de QA Senior y Arquitecto de Pruebas: genera pruebas, valida cobertura, documenta componentes y devuelve handoff estructurado al agente de desarrollo. **Obligatorio** al cerrar cada feature (gate de cierre) y antes de solicitar un PR (gate pre-PR). |
 | [spec-driven-dev](./spec-driven-dev/) | Guia de Spec-Driven Development (SDD) basada en GitHub Spec Kit. Flujo de 3 fases: Especificar, Planificar, Tareas. **Obligatorio** si la tarea modifica codigo existente, afecta a mas de un archivo, altera contratos o APIs, o introduce logica nueva; exige PRD, historia de usuario o especificacion antes de desarrollar. |
 | [ux-design](./ux-design/) | Principios de UX/UI y psicologia cognitiva aplicada al diseno. Leyes de UX, design tokens, accesibilidad WCAG 2.2, flujo de evaluacion y plantilla de design system. Principio fundamental de la Fabrica de Software CUN. |
 
@@ -99,7 +133,9 @@ Ademas del catalogo, la raiz del repositorio contiene:
 ```text
 fab-skills/
   AGENTS.md            # Reglas de trabajo sobre este repositorio
-  AGENTS_EJEMPLO.md    # Plantilla adoptable por proyectos CUN
+  AGENTS_EJEMPLO.md    # Comportamiento base del agente. No se distribuye con
+                       # npx skills: instalar a mano en alcance global o de
+                       # repositorio (ver "Instalar AGENTS_EJEMPLO.md")
   _template/           # Plantilla base (no se distribuye)
   backend-nest-hexagonal-cun/ # Skill de NestJS Hexagonal
     SKILL.md
@@ -120,10 +156,14 @@ fab-skills/
       buenas-practicas.md
   memoria/             # Skill de memoria
     SKILL.md
-  proyectos-tareas-cun/ # Skill de Proyectos y Tareas CUN
+  proyectos-tareas-cun/   # Skill de Proyectos y Tareas CUN
     SKILL.md
     reference/
       endpoints.md
+  qa-and-testing/      # Skill de QA y Testing
+    SKILL.md
+    reference/
+      qa-checklist-cierre.md
   spec-driven-dev/     # Skill de SDD
     SKILL.md
     reference/
