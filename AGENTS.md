@@ -3,7 +3,7 @@
 ## Alcance del repositorio
 - Este repo no es una app ejecutable: es un catalogo de skills para `npx skills`.
 - Cada skill vive en una carpeta de primer nivel con `SKILL.md` y, opcionalmente, `reference/`.
-- Skills distribuidas: `backend-nest-hexagonal-cun`, `front-angular-fab`, `google-adk-cun`, `memoria`, `proyectos-tareas-cun`, `spec-driven-dev`, `ux-design`.
+- Skills distribuidas: `backend-nest-hexagonal-cun`, `front-angular-fab`, `google-adk-cun`, `memoria`, `proyectos-tareas-cun`, `qa-and-testing`, `spec-driven-dev`, `ux-design`.
 - `_template/` es plantilla local y no contenido final.
 
 ## Flujo correcto para agregar o editar skills
