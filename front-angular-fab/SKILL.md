@@ -102,6 +102,10 @@ Verificacion posterior con `list_projects`: si `styleLanguage` no es `scss` o `u
 
 ## Reglas de arquitectura
 
+### Un repositorio por tecnologia
+
+**Monorepo prohibido.** El frontend vive en su propio repositorio `<proyecto>-front` y no comparte repositorio con el backend (`<proyecto>-back`) ni con el agente ADK (`<proyecto>-adk`). La frontera es la tecnologia, no el numero de proyectos: un workspace Angular con la app y sus librerias Angular sigue siendo el repositorio de front y es valido; alojar en el mismo repositorio codigo NestJS o el agente ADK, no lo es. Proyecto nuevo planteado como monorepo: bloqueado. Proyecto existente que ya es monorepo: no bloquea el trabajo, pero se declara no conformidad y se registra la deuda de separacion en TASKS.md.
+
 ### Estructura de carpetas FAB
 
 ```text
@@ -209,6 +213,7 @@ src/
 
 ## Criterios de calidad
 
+- El frontend vive en su propio repositorio `<proyecto>-front`; no comparte repositorio con back ni con el agente ADK.
 - Coherencia con arquitectura FAB.
 - Separacion estricta .ts / .html / .scss.
 - Angular 22 o superior.
