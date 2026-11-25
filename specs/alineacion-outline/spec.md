@@ -13,7 +13,7 @@ Resultado esperado: un desarrollador con una skill instalada deja el proyecto **
 | Codigo | Documento | URL | Ultima edicion |
 |---|---|---|---|
 | POL-DEP | POLITICA DE DESPLIEGUES DE SOFTWARE (POL-FSW-DEP-001, v1.0, Vigente) | https://vsdocs.cunapp.pro/doc/politica-de-despliegues-de-software-jLfrrOmXhU | 2026-09-14 |
-| PROC-DEP | Politica de despliegue para aplicaciones (procedimiento tecnico de solicitud) | https://vsdocs.cunapp.pro/doc/politica-de-despliegue-para-aplicaciones-BvLUFkkCQw | 2026-09-14 |
+| PROC-DEP | Politica de despliegue para aplicaciones (procedimiento tecnico de solicitud) | https://vsdocs.cunapp.pro/doc/politica-de-despliegue-para-aplicaciones-BvLUFkkCQw | 2026-11-25 (subseccion "Variables de entorno en frontend Angular" anadida ese dia) |
 | STACK | Estandares, Arquitectura y Stack Tecnologico (v2.0) | https://vsdocs.cunapp.pro/doc/estandares-arquitectura-y-stack-tecnologico-ntS5CnWnkQ | 2026-07-29 |
 | QA-MET | QA: Metodologia de Trabajo | https://vsdocs.cunapp.pro/doc/qa-metodologia-de-trabajo-JGQS4SnlYm | 2026-07-30 |
 | CHECK | Checklist - Paso a produccion de App | https://vsdocs.cunapp.pro/doc/checklist-paso-a-produccion-de-app-oLfWOcIlSP | 2026-05-21 |

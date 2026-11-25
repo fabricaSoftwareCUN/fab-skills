@@ -92,8 +92,9 @@ src/
 │   ├── fonts/
 │   └── icons/
 ├── environments/
-│   ├── environment.ts
-│   └── environment.prod.ts
+│   ├── environment.model.ts       # versionado, interfaz AppEnvironment
+│   ├── environment.ts             # generado por npm run envs, no versionado
+│   └── environment.prod.ts        # generado por npm run envs, no versionado
 └── styles.scss
 ```
 
@@ -642,25 +643,41 @@ export const roleGuard = (allowedRoles: string[]): CanActivateFn => {
 
 ## Environments
 
-```typescript
-// environment.ts
-export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:3000/api',
-  appName: 'Mi Proyecto CUN',
-  version: '1.0.0',
-};
+Los archivos `environment.ts` y `environment.prod.ts` se generan con `npm run envs` a partir de variables `NG_APP_*` y **no se versionan**. El contrato tipado vive en `environment.model.ts`:
 
-// environment.prod.ts
-export const environment = {
-  production: true,
-  apiUrl: 'https://api.miproyecto.cun.edu.co/api',
-  appName: 'Mi Proyecto CUN',
-  version: '1.0.0',
-};
+```typescript
+// src/environments/environment.model.ts (versionado)
+export interface AppEnvironment {
+  production: boolean;
+  apiUrl: string;
+  readonly gaId: string;
+  featureX: boolean;
+  pageSize: number;
+}
 ```
 
-> Los archivos en `environments/` nunca contienen secretos. Las credenciales y keys sensibles se gestionan via variables de entorno del contenedor o CI/CD.
+```bash
+# .env.example (versionado) — claves NG_APP_* con valores de ejemplo
+NG_APP_API_URL=https://api.example.com
+NG_APP_GA_ID=G-XXXXXXXXXX
+NG_APP_FEATURE_X=false
+NG_APP_PAGE_SIZE=20
+```
+
+```bash
+# .env (no versionado) — valores locales
+NG_APP_API_URL=http://localhost:3000
+```
+
+Procedimiento:
+
+1. Copiar `scripts/set-envs.mjs` de la skill al proyecto.
+2. Crear `.env.example` con todas las claves `NG_APP_*` y `environment.model.ts` con la interfaz `AppEnvironment`.
+3. Anadir a `package.json`: `"envs": "node scripts/set-envs.mjs"`, `"prebuild": "npm run envs"`, `"prestart": "npm run envs"`.
+4. Anadir a `.gitignore`: `!.env.example`, `src/environments/environment.ts` y `src/environments/environment.prod.ts`.
+5. Ejecutar `npm run envs` para generar los archivos.
+
+Precedencia: `process.env` > `.env` > `.env.example`. Solo variables publicas `NG_APP_*`; ningun secreto en el bundle (R28). Ver [10-envs-environments.md](10-envs-environments.md).
 
 ## Angular Material - Modulos comunes
 
@@ -709,7 +726,7 @@ Verificacion obligatoria al iniciar un proyecto Angular para la Fabrica de Softw
 10. [ ] Jest 30 + `jest-preset-angular` 17 configurados como test runner
 11. [ ] ESLint 10 + `angular-eslint` 22 con `eslint.config.js` (flat config)
 12. [ ] Cypress 16 instalado para E2E
-13. [ ] Archivos de environment creados (`environment.ts`, `environment.prod.ts`) sin secretos
+13. [ ] `scripts/set-envs.mjs` copiado, `.env.example` y `environment.model.ts` creados, `npm run envs` genera `environment.ts` y `environment.prod.ts` (no versionados), `.gitignore` incluye `!.env.example`
 14. [ ] `AuthService` implementado con login, logout, getToken, refreshToken
 15. [ ] `LoadingService` implementado con signals
 16. [ ] `ErrorService` implementado con handle y handleAlertHttp

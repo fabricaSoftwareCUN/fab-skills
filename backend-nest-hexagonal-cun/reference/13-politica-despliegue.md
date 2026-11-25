@@ -2,7 +2,7 @@
 
 > Fuentes normativas:
 > - [POL-DEP: POLITICA DE DESPLIEGUES DE SOFTWARE (POL-FSW-DEP-001, v1.0)](https://vsdocs.cunapp.pro/doc/politica-de-despliegues-de-software-jLfrrOmXhU) (2026-09-14)
-> - [PROC-DEP: Politica de despliegue para aplicaciones](https://vsdocs.cunapp.pro/doc/politica-de-despliegue-para-aplicaciones-BvLUFkkCQw) (2026-09-14)
+> - [PROC-DEP: Politica de despliegue para aplicaciones](https://vsdocs.cunapp.pro/doc/politica-de-despliegue-para-aplicaciones-BvLUFkkCQw) (2026-11-25)
 > - [CHECK: Checklist - Paso a produccion de App](https://vsdocs.cunapp.pro/doc/checklist-paso-a-produccion-de-app-oLfWOcIlSP) (2026-05-21)
 > - [VER: Politica de Versionamiento (v1.0.0)](https://vsdocs.cunapp.pro/doc/politica-de-versionamiento-rWrLfEiuzC) (2025-12-09)
 > - [STACK: Estandares, Arquitectura y Stack Tecnologico (v2.0)](https://vsdocs.cunapp.pro/doc/estandares-arquitectura-y-stack-tecnologico-ntS5CnWnkQ) (2026-07-29)
