@@ -116,6 +116,10 @@ Verificacion posterior con `list_projects`: si `styleLanguage` no es `scss` o `u
 ### Estructura de carpetas
 
 ```text
+scripts/
+  set-envs.mjs             # script de generacion de environments (versionado)
+.env.example               # claves NG_APP_* con valores de ejemplo (versionado)
+.env                       # valores locales (no versionado)
 src/
   app/
     core/                    # singletons: auth, guards, interceptors, services globales, config
@@ -130,7 +134,8 @@ src/
     app.config.ts
     app.component.ts              # con --file-name-style-guide=2016 el CLI genera app.component.*, no app.ts
   assets/                    # images, fonts, icons
-  environments/              # environment.ts, environment.prod.ts (sin secretos)
+  environments/              # environment.ts, environment.prod.ts (generados, no versionados)
+                             # environment.model.ts (versionado, interfaz AppEnvironment)
   styles.scss
 ```
 
@@ -209,6 +214,7 @@ Configuracion plana obligatoria en `eslint.config.js` (ESLint 10 no soporta `.es
 0. Ejecutar `list_projects` y `get_best_practices(workspacePath)`. Verificar que el proyecto esta en Angular 22.3 o superior.
 0.b. Si el proyecto no existe, crearlo con `ng new` segun los flags normativos y fijar el bloque `schematics` en `angular.json`.
 0.c. Gate de especificacion: si la tarea introduce o modifica capacidad funcional, exige antes PRD, historia de usuario o especificacion escrita, y aplica Spec-Driven Development conforme a la skill `spec-driven-dev`.
+0.d. Al crear un proyecto nuevo: copiar `scripts/set-envs.mjs` de la skill, crear `.env.example` con las claves `NG_APP_*` y `src/environments/environment.model.ts` con la interfaz `AppEnvironment`, anadir los scripts `envs`/`prebuild`/`prestart` a `package.json`, anadir `!.env.example` y las dos lineas de `src/environments/` a `.gitignore` y ejecutar `npm run envs`. Ver [10-envs-environments.md](reference/10-envs-environments.md).
 1. Identificar la funcionalidad objetivo.
 2. Consultar la referencia correspondiente segun el tema.
 3. Aplicar reglas de esta skill antes de implementar.
@@ -219,8 +225,8 @@ Configuracion plana obligatoria en `eslint.config.js` (ESLint 10 no soporta `.es
 - Flujo estandar: `DESARROLLO -> QA -> STG -> PRO`, progresivo y unidireccional.
 - El proyecto DEBE incluir un `Dockerfile` funcional con la imagen publica AWS del Tech Lead.
 - Incluir configuracion de **SonarQube** (`sonar-project.properties`) y `main.yml` para CI/CD.
-- `.gitignore` conforme a R10: `docker-compose.yml`, `docker-compose.*.yml`, `compose.yml`, `compose.*.yml`, `*.sh`, `.env`, `.env.*`.
-- Variables de entorno en formato `.txt` con bloques `ENVS NUEVAS / ENVS MODIFICADAS / ENVS ELIMINADAS`. Angular usa `environments/` sin secretos.
+- `.gitignore` conforme a R10: `docker-compose.yml`, `docker-compose.*.yml`, `compose.yml`, `compose.*.yml`, `*.sh`, `.env`, `.env.*`, `!.env.example`.
+- Variables de entorno en formato `.txt` con bloques `ENVS NUEVAS / ENVS MODIFICADAS / ENVS ELIMINADAS`. Angular usa environments generados por `npm run envs`; solo variables publicas `NG_APP_*` (R28).
 - Ramas por ambiente: `develop`, `qa`, `stg`, `main`. Ramas efimeras: `<tipo>/<ID_HU>-<slug-kebab>`.
 - Versionamiento SemVer con sufijos por rama; tag `vX.Y.Z` en `main` creado automaticamente por CI.
 - Cobertura: gate bloqueante 70% codigo nuevo (SonarQube); objetivo 85% global.
@@ -245,6 +251,7 @@ Configuracion plana obligatoria en `eslint.config.js` (ESLint 10 no soporta `.es
 - Proyecto incluye `Dockerfile`, `sonar-project.properties` y `main.yml`.
 - `.gitignore` conforme a R10.
 - Variables de entorno sanitizadas segun politica de despliegue.
+- `environment.ts` y `environment.prod.ts` generados por `npm run envs`; `environment.model.ts` versionado; ningun secreto en el bundle (R28).
 - Lazy loading para todas las features.
 - `@for` con `track` en listas.
 - Budgets, `aot` y `optimization` en `angular.json`.
@@ -255,7 +262,7 @@ Configuracion plana obligatoria en `eslint.config.js` (ESLint 10 no soporta `.es
 | Codigo | Documento | URL | Ultima edicion |
 |---|---|---|---|
 | POL-DEP | POLITICA DE DESPLIEGUES DE SOFTWARE (POL-FSW-DEP-001, v1.0) | https://vsdocs.cunapp.pro/doc/politica-de-despliegues-de-software-jLfrrOmXhU | 2026-09-14 |
-| PROC-DEP | Politica de despliegue para aplicaciones | https://vsdocs.cunapp.pro/doc/politica-de-despliegue-para-aplicaciones-BvLUFkkCQw | 2026-09-14 |
+| PROC-DEP | Politica de despliegue para aplicaciones | https://vsdocs.cunapp.pro/doc/politica-de-despliegue-para-aplicaciones-BvLUFkkCQw | 2026-11-25 |
 | VER | Politica de Versionamiento (v1.0.0) | https://vsdocs.cunapp.pro/doc/politica-de-versionamiento-rWrLfEiuzC | 2025-12-09 |
 | CHECK | Checklist - Paso a produccion de App | https://vsdocs.cunapp.pro/doc/checklist-paso-a-produccion-de-app-oLfWOcIlSP | 2026-05-21 |
 | QA-MET | QA: Metodologia de Trabajo | https://vsdocs.cunapp.pro/doc/qa-metodologia-de-trabajo-JGQS4SnlYm | 2026-07-30 |
@@ -277,3 +284,4 @@ Fecha de alineacion: 2026-11-25.
 | [07-http-testing.md](reference/07-http-testing.md) | HttpClient moderno, httpResource, effects con errores, HttpTestingController, casos negativos |
 | [08-convenciones-codigo.md](reference/08-convenciones-codigo.md) | TypeScript strict, convencion de archivos, orden de imports, ESLint flat config, formularios, validacion de templates |
 | [09-politica-despliegue.md](reference/09-politica-despliegue.md) | Politica de despliegue CUN: flujo, ramas, versionamiento, Dockerfile, CI/CD, variables de entorno, proceso de solicitud, calendario, checklist produccion |
+| [10-envs-environments.md](reference/10-envs-environments.md) | Variables de entorno y environments: generacion con `npm run envs`, R28, `.env.example`, `environment.model.ts`, CI/CD y Docker |

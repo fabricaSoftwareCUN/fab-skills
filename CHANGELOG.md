@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.18.0] - 2026-11-25
+
+### Agregado
+- `front-angular-fab/scripts/set-envs.mjs`: script Node ESM sin dependencias que genera `src/environments/environment.ts` y `environment.prod.ts` a partir de variables `NG_APP_*` (precedencia: `process.env` > `.env` > `.env.example`). Incluye parser propio de `.env` con eliminacion de BOM y tratamiento de valor vacio como ausente, mapa `camel(envKey) -> envKey` para resolucion de nombres, tipado y validacion por `environment.model.ts` (solo `string`, `number`, `boolean`; falla con mensaje que nombra la propiedad), anotacion `AppEnvironment` en el archivo generado, verificacion de nombres sensibles por tokens (R28) con sufijo `_PUBLIC` y flag `--allow-sensitive-names`, advertencia para claves no declaradas en el modelo, modo `--check` con las mismas validaciones que la ejecucion real, y flag `--root`.
+- `front-angular-fab/reference/10-envs-environments.md`: procedimiento completo de variables de entorno y environments en Angular. Incluye R28, tabla de artefactos, script de referencia, `package.json` con `envs`/`prebuild`/`prestart`, ejemplos de `.env.example` y `environment.model.ts`, lineas de `.gitignore`, bloques de CI y Docker, nota de solicitud `.txt` y tabla de errores frecuentes.
+- `specs/envs-frontend/outline-politica.md`: texto listo para pegar en Outline (PROC-DEP, nueva subseccion "Variables de entorno en frontend Angular").
+- `front-angular-fab/SKILL.md`: paso 0.d en "Flujo de trabajo" (copiar `scripts/set-envs.mjs`, crear `.env.example` y `environment.model.ts`, anadir scripts npm, `!.env.example` y lineas de `.gitignore`, ejecutar `npm run envs`); regla en "Reglas de despliegue"; criterio en "Criterios de calidad"; fila en tabla de referencia local; arbol con `scripts/set-envs.mjs`, `.env.example`, `.env` y `environment.model.ts`.
+- `README.md`: fila de `front-angular-fab` menciona `npm run envs`; resumen de "Politica de despliegue" incluye R28; arbol de estructura incluye `front-angular-fab/scripts/set-envs.mjs` y `reference/10-envs-environments.md`.
+- `AGENTS_EJEMPLO.md`, `backend-nest-hexagonal-cun/SKILL.md`, `backend-nest-hexagonal-cun/reference/13-politica-despliegue.md`, `google-adk-cun/reference/politica-despliegue.md`, `specs/alineacion-outline/spec.md`: fecha de PROC-DEP actualizada a 2026-11-25 (edicion principal, fuera del alcance de esta entrega).
+
+### Modificado
+- `front-angular-fab/reference/01-arquitectura-proyecto.md`: seccion "Environments" reescrita al modelo de archivos generados (`npm run envs`); item 13 del checklist de nuevo proyecto actualizado.
+- `front-angular-fab/reference/09-politica-despliegue.md`: bloque `.gitignore` anade `!.env.example` y los dos archivos generados; Dockerfile con `ARG`/`ENV` por variable `NG_APP_*`; job `build` de `main.yml` con bloque `env:` y paso `node scripts/set-envs.mjs --check`; job `docker` con `--build-arg` por variable `NG_APP_*`; nota de solicitud `.txt` incluye `NG_APP_*`; checklist CHECK actualizado; fecha de PROC-DEP actualizada a 2026-11-25.
+- `front-angular-fab/SKILL.md`: fecha de PROC-DEP en tabla de fuentes actualizada a 2026-11-25.
+- `README.md`: fecha de PROC-DEP en tabla de fuentes normativas actualizada a 2026-11-25.
+
+### Fuente
+- Spec: `specs/envs-frontend/spec.md` (generacion de `environments/` desde `.env` en proyectos Angular). Extiende `specs/alineacion-outline/spec.md` (R10, R11, R14). PROC-DEP actualizado 2026-11-25 con la subseccion "Variables de entorno en frontend Angular".
+
 ## [0.17.0] - 2026-11-25
 
 ### Agregado

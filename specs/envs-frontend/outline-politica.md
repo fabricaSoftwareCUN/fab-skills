@@ -1,0 +1,4 @@
+# Texto para Outline (PROC-DEP, nueva subseccion)
+
+### Variables de entorno en frontend Angular
+Los proyectos Angular no versionan `environment.ts` ni `environment.prod.ts`. Ambos se generan con `npm run envs` (script `scripts/set-envs.mjs` incluido en la plantilla del proyecto) a partir de las variables `NG_APP_*` del entorno o del archivo `.env` local. `npm run build` ejecuta `npm run envs` como fase previa; por tanto, el build de CI/CD y el de Docker reciben las variables `NG_APP_*` y nunca un archivo de environment escrito a mano. Solo se admiten variables publicas (el bundle es visible en el navegador): URLs, identificadores y claves publicas. Cualquier credencial de servicio permanece en el backend. El `.env.example` versionado declara las claves esperadas. Las `NG_APP_*` se solicitan a DevOps en el mismo `.txt` de variables de entorno.

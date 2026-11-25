@@ -13,7 +13,7 @@
 | Codigo | Documento | URL | Ultima edicion |
 |---|---|---|---|
 | POL-DEP | POLITICA DE DESPLIEGUES DE SOFTWARE (POL-FSW-DEP-001, v1.0) | https://vsdocs.cunapp.pro/doc/politica-de-despliegues-de-software-jLfrrOmXhU | 2026-09-14 |
-| PROC-DEP | Politica de despliegue para aplicaciones | https://vsdocs.cunapp.pro/doc/politica-de-despliegue-para-aplicaciones-BvLUFkkCQw | 2026-09-14 |
+| PROC-DEP | Politica de despliegue para aplicaciones | https://vsdocs.cunapp.pro/doc/politica-de-despliegue-para-aplicaciones-BvLUFkkCQw | 2026-11-25 |
 | VER | Politica de Versionamiento (v1.0.0) | https://vsdocs.cunapp.pro/doc/politica-de-versionamiento-rWrLfEiuzC | 2025-12-09 |
 | CHECK | Checklist - Paso a produccion de App | https://vsdocs.cunapp.pro/doc/checklist-paso-a-produccion-de-app-oLfWOcIlSP | 2026-05-21 |
 | QA-MET | QA: Metodologia de Trabajo | https://vsdocs.cunapp.pro/doc/qa-metodologia-de-trabajo-JGQS4SnlYm | 2026-07-30 |
@@ -130,6 +130,9 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
+ARG NG_APP_API_URL
+ENV NG_APP_API_URL=$NG_APP_API_URL
+# Un ARG/ENV por cada variable NG_APP_*
 RUN npm run build -- --configuration production
 
 FROM <imagen-aws-nginx-tech-lead> AS runtime
@@ -206,12 +209,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     needs: [sonarqube]
+    env:
+      NG_APP_API_URL: ${{ vars.NG_APP_API_URL }}
+      NG_APP_GA_ID: ${{ vars.NG_APP_GA_ID }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 26
       - run: npm ci
+      - run: node scripts/set-envs.mjs --check
       - run: npm run build -- --configuration production
 
   e2e:
@@ -235,7 +242,8 @@ jobs:
     if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
-      - run: docker build -t <proyecto>-front:${{ github.sha }} .
+      - run: docker build --build-arg NG_APP_API_URL=${{ vars.NG_APP_API_URL }} --build-arg NG_APP_GA_ID=${{ vars.NG_APP_GA_ID }} -t <proyecto>-front:${{ github.sha }} .
+      # Un --build-arg por cada variable NG_APP_*
 
   tag:
     runs-on: ubuntu-latest
@@ -263,11 +271,15 @@ compose.*.yml
 *.sh
 .env
 .env.*
+!.env.example
+# Environments generados por npm run envs
+src/environments/environment.ts
+src/environments/environment.prod.ts
 ```
 
 ### Variables de entorno (R11)
 
-- Angular usa `environments/` (`environment.ts`, `environment.prod.ts`) sin secretos.
+- Angular usa environments generados por `npm run envs`; solo variables publicas `NG_APP_*` (R28). Los archivos `environment.ts` y `environment.prod.ts` no se versionan.
 - Variables de contenedor/CI en formato `SNAKE_CASE`, sin espacios, sin comillas innecesarias, ordenadas por categoria.
 - Envio como adjunto `.txt` con tres bloques:
 
@@ -384,7 +396,7 @@ Correo electronico con:
 
 - Nombre del proyecto.
 - Nombre del repositorio.
-- Variables de entorno (sanitizadas, en adjunto `.txt` con bloques `ENVS NUEVAS / ENVS MODIFICADAS / ENVS ELIMINADAS`).
+- Variables de entorno (sanitizadas, en adjunto `.txt` con bloques `ENVS NUEVAS / ENVS MODIFICADAS / ENVS ELIMINADAS`). Las `NG_APP_*` del frontend se incluyen en el mismo `.txt`.
 - Ambiente destino.
 - Requisitos tecnicos.
 - Enlace del Pull Request (PR).
@@ -395,7 +407,7 @@ Correo con:
 
 - Nombre del proyecto.
 - Nombre del repositorio.
-- Variables de entorno (adjuntas unicamente si requieren creacion o modificacion, en `.txt`).
+- Variables de entorno (adjuntas unicamente si requieren creacion o modificacion, en `.txt`). Las `NG_APP_*` del frontend van en el mismo `.txt`.
 - Enlace del Pull Request (PR) hacia la rama del ambiente destino.
 - Ambiente destino.
 - Descripcion de cambios.
@@ -479,7 +491,7 @@ Todo despliegue a PRO debe contar con validacion posterior: verificacion de disp
 
 #### Desarrollador
 
-- [ ] Variables de entorno configuradas para PRO (`environments/environment.prod.ts` sin secretos).
+- [ ] Variables de entorno configuradas para PRO (`npm run envs` genera `environment.prod.ts`; solo variables publicas `NG_APP_*`).
 - [ ] Configuraciones sensibles (API keys, BD) no en codigo.
 - [ ] Modo produccion activado (`aot`, `optimization` en `angular.json`).
 - [ ] Cache habilitado (CDN, navegador, servidor).

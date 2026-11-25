@@ -60,7 +60,7 @@ Reglas de instalacion:
 | Skill | Descripcion |
 |-------|-------------|
 | [backend-nest-hexagonal-cun](./backend-nest-hexagonal-cun/) | Skill base para construir proyectos backend en NestJS 12+ aplicando Arquitectura Hexagonal, Fastify, TypeORM 1.x, PostgreSQL 19, Swagger y Prometheus. Incluye reglas de despliegue alineadas con la normativa Outline de la Fabrica de Software CUN. |
-| [front-angular-fab](./front-angular-fab/) | Skill principal del ecosistema Front Angular CUN. Arquitectura core/features/shared/layout, componentes standalone v22+, signals, interceptores HTTP funcionales, testing con Jest 30, Cypress 16 E2E, migracion Jasmine-a-Jest, mocking avanzado con Faker, y convenciones de codigo. Angular 22.3+, Node 26 LTS, TypeScript 6.0, ESLint 10 flat config. Angular CLI obligatorio (MCP `angular-cli` + `ng`). |
+| [front-angular-fab](./front-angular-fab/) | Skill principal del ecosistema Front Angular CUN. Arquitectura core/features/shared/layout, componentes standalone v22+, signals, interceptores HTTP funcionales, testing con Jest 30, Cypress 16 E2E, migracion Jasmine-a-Jest, mocking avanzado con Faker, y convenciones de codigo. Angular 22.3+, Node 26 LTS, TypeScript 6.0, ESLint 10 flat config. Angular CLI obligatorio (MCP `angular-cli` + `ng`). Environments generados con `npm run envs`. |
 | [google-adk-cun](./google-adk-cun/) | Guia sobre Google Agent Development Kit (ADK). Creacion de agentes, herramientas, modelos, callbacks, streaming, graphs, despliegue y arquitectura. `google-adk` 2.x, `google-agents-cli` 1.16+ y la suite `google-agents-cli-*` obligatorios. Incluye politica de despliegue CUN adaptada a agentes ADK. |
 | [memoria](./memoria/) | Protocolo para gestion de memoria en interacciones con el usuario. |
 | [proyectos-tareas-cun](./proyectos-tareas-cun/) | Administracion de workspaces en Plane (proyectos.cunapp.pro). Gestion de proyectos, work items, ciclos, modulos, paginas, epics y mas. Requiere `PLANE_API_KEY` y `PLANE_WORKSPACE_SLUG`. |
@@ -77,7 +77,7 @@ Las skills de este catalogo estan alineadas con la normativa oficial de la Fabri
 | Codigo | Documento | URL | Ultima edicion |
 |--------|-----------|-----|----------------|
 | POL-DEP | POLITICA DE DESPLIEGUES DE SOFTWARE (POL-FSW-DEP-001, v1.0, Vigente) | https://vsdocs.cunapp.pro/doc/politica-de-despliegues-de-software-jLfrrOmXhU | 2026-09-14 |
-| PROC-DEP | Politica de despliegue para aplicaciones (procedimiento tecnico de solicitud) | https://vsdocs.cunapp.pro/doc/politica-de-despliegue-para-aplicaciones-BvLUFkkCQw | 2026-09-14 |
+| PROC-DEP | Politica de despliegue para aplicaciones (procedimiento tecnico de solicitud) | https://vsdocs.cunapp.pro/doc/politica-de-despliegue-para-aplicaciones-BvLUFkkCQw | 2026-11-25 |
 | STACK | Estandares, Arquitectura y Stack Tecnologico (v2.0) | https://vsdocs.cunapp.pro/doc/estandares-arquitectura-y-stack-tecnologico-ntS5CnWnkQ | 2026-07-29 |
 | QA-MET | QA: Metodologia de Trabajo | https://vsdocs.cunapp.pro/doc/qa-metodologia-de-trabajo-JGQS4SnlYm | 2026-07-30 |
 | CHECK | Checklist - Paso a produccion de App | https://vsdocs.cunapp.pro/doc/checklist-paso-a-produccion-de-app-oLfWOcIlSP | 2026-05-21 |
@@ -122,7 +122,7 @@ Reglas duras:
 - **R1 — Ventana de PRO:** unicamente **lunes habil**; si el lunes no es habil, el siguiente dia habil. Martes a viernes, fines de semana y festivos requieren excepcion autorizada (ver R2).
 - **R2 — Autorizaciones:** QA y STG: responsable del proceso (solicitud al Tech Lead). PRO lunes habil: flujo estandar con aprobacion del QA en el hilo de correo y checklist aprobado por el Tech Lead, o solicitud directa del Coordinador por el canal debido. PRO martes a viernes: excepcion autorizada por el Vicerrector de Servicios Digitales. PRO sabado, domingo o festivo: excepcion con la autorizacion correspondiente (POL-DEP 28), bajo la autorizacion general del Vicerrector para toda excepcion al calendario (POL-DEP 11). Hotfix critico: Coordinador de la Fabrica.
 - **R9 — Cobertura:** gate bloqueante 70 % en codigo nuevo, medido por SonarQube en la canalizacion; objetivo recomendado 85 % global en lineas y ramas.
-- **R10 — `docker-compose.yml` no se versiona.** `.gitignore` incluye `docker-compose.yml`, `docker-compose.*.yml`, `compose.yml`, `compose.*.yml`, `*.sh`, `.env`, `.env.*`. El compose de desarrollo local existe solo sin versionar.
+- **R10 — `docker-compose.yml` no se versiona.** `.gitignore` incluye `docker-compose.yml`, `docker-compose.*.yml`, `compose.yml`, `compose.*.yml`, `*.sh`, `.env`, `.env.*`. El compose de desarrollo local existe solo sin versionar. Excepcion `!.env.example` en proyectos Angular (ver skill front-angular-fab).
 - **R11 — Variables de entorno:** `SNAKE_CASE`, sin espacios, sin comillas innecesarias, ordenadas por categoria. Se envian como adjunto `.txt` con tres bloques: `ENVS NUEVAS`, `ENVS MODIFICADAS`, `ENVS ELIMINADAS`. Nunca en el repositorio. Backend: validacion al arranque con `@nestjs/config` + `class-validator` + `class-transformer`.
 - **R12 — Observabilidad:** todo backend expone `GET /metrics` en formato Prometheus con las cuatro senales de oro (trafico, errores 5xx, latencia p95/p99, saturacion) y metricas de negocio. Grafana para visualizacion. Frontend: eventos de telemetria (Google Analytics / GTM) y Core Web Vitals.
 - **R22 — Accesibilidad:** WCAG 2.2 como referencia unica. Donde CHECK dice "WCAG 2.1" se copia como 2.2 con nota de origen.
@@ -131,6 +131,7 @@ Reglas duras:
 - **R25 — Horario de solicitud:** las solicitudes se envian en dia habil entre 8:00 y 17:00. Tiempos orientativos de atencion: DEV, QA y STG de 1 h a 36 h; PRO de 2 h a 24 h. La ejecucion en PRO se programa siempre segun R1.
 - **R26 — Subcarpetas por modulo en backend:** el arbol de STACK 3.2 es el minimo. Cuando el proyecto tiene varios modulos se permite `domain/entities/<modulo>/`, `domain/services/<modulo>/`, `domain/ports/out/<modulo>/`, `application/use-cases/<modulo>/`, `application/dtos/<modulo>/`, `infrastructure/adapters/<tipo>/<modulo>/` y `infrastructure/controllers/<modulo>/`.
 - **R27 — Ubicacion de los DTOs:** un unico juego de DTOs en `application/dtos/<modulo>/`, decorados con `class-validator` y `@ApiProperty`. `domain` permanece libre de decoradores; los controladores de `infrastructure` reutilizan esos DTOs; no se duplican en infraestructura.
+- **R28 — Variables de entorno en frontend Angular:** los proyectos Angular no versionan `environment.ts` ni `environment.prod.ts`; ambos se generan con `npm run envs` a partir de variables publicas `NG_APP_*`. Solo se admiten URLs, identificadores y claves publicas; ninguna credencial de servicio pasa por el bundle. Las `NG_APP_*` se solicitan a DevOps en el mismo `.txt` de variables.
 
 ## Politica de repositorios
 
@@ -230,10 +231,13 @@ fab-skills/
       ... (13 archivos de referencia)
   front-angular-fab/   # Skill de Front Angular
     SKILL.md
+    scripts/
+      set-envs.mjs       # Script de generacion de environments
     reference/
       01-arquitectura-proyecto.md
       02-componentes.md
-      ... (9 archivos de referencia)
+      ... (10 archivos de referencia)
+      10-envs-environments.md
   google-adk-cun/      # Skill de Google ADK
     SKILL.md
     reference/
