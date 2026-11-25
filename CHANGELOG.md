@@ -1,5 +1,52 @@
 # Changelog
 
+## [0.17.0] - 2026-11-25
+
+### Agregado
+- `.gitattributes` en la raiz: `* text=auto eol=lf`. Fuerza finales de linea LF en todos los archivos de texto del repositorio.
+- `google-adk-cun/reference/politica-despliegue.md`: politica de despliegue de la Fabrica de Software CUN adaptada a agentes ADK. Flujo de ambientes `DESARROLLO -> QA -> STG -> PRO`, calendario PRO (lunes habil), hotfix, rollback, checklists, matriz de autorizaciones y proceso de solicitud por correo. Fuentes: POL-DEP, PROC-DEP, CHECK, VER, INV.
+- `README.md`: nueva seccion `## Normativa Outline` con la tabla de fuentes normativas (codigo, titulo, URL, ultima edicion), la regla de precedencia (Outline > AGENTS.md del repositorio > skill CUN > skill externa) y la nota de que las skills llevan copia integra de la normativa con fecha de alineacion 2026-11-25.
+- `README.md`: nueva seccion `## Ramas y versionamiento` con el resumen normativo R4 a R8 (ramas por ambiente, ramas efimeras, origen y destino, requisitos de PR, SemVer con sufijos y tag automatico).
+- `README.md`: nueva seccion `## Politica de despliegue` con el resumen normativo R1, R2, R10, R11, R12 y remision a las tres referencias de dominio (backend, front, ADK).
+- `README.md`: verificacion manual de estructura en `### Estructura minima de un skill` (name = carpeta, description <= 1024, license MIT, metadata escalar, <= 500 lineas, LF).
+- `AGENTS.md`: nuevas convenciones — fecha de alineacion 2026-11-25 y obligacion de actualizar las copias de las skills cuando Outline cambie; `.gitattributes` fuerza LF; valores de `metadata` deben ser cadenas escalares; `specs/` contiene especificaciones y no es un skill.
+- `AGENTS_EJEMPLO.md`: seccion 8 ampliada con modelo de ramas (R4 a R8) y reglas duras de despliegue (R1, R2, R10, R11, R12); nueva seccion 9 "Normativa de la Fabrica de Software" con tabla de fuentes Outline y regla de precedencia.
+
+### Modificado
+- `README.md`: tabla de skills disponibles actualizada con versiones alineadas al stack 2026-11-25. Backend: NestJS 12+, Node 26 LTS, TypeScript 6.0, TypeORM 1.x, PostgreSQL 19, Jest 30, `@willsoto/nestjs-prometheus` 7. Front: Angular 22.3+, Node 26 LTS, TypeScript 6.0, Jest 30, Cypress 16, ESLint 10 flat config. ADK: `google-adk` 2.x, `google-agents-cli` 1.16+.
+- `README.md`: seccion `### Playwright` reescrita: Cypress 16 es la herramienta E2E del proyecto para Angular (STACK 8.3); Playwright se usa solo como MCP de automatizacion de navegador para el agente.
+- `README.md`: arbol de estructura actualizado — anadidos `.gitattributes`, `specs/`, `google-adk-cun/reference/politica-despliegue.md`; eliminado `scripts/`.
+- `README.md`: seccion `## Contribuir` paso 4 sustituye la ejecucion del validador por la verificacion manual de estructura.
+- `README.md`: seccion `## Politica de despliegue` refleja las resoluciones R22 a R27: WCAG 2.2 como referencia unica de accesibilidad; clases de resultado (`Aprobado` / `Aprobado con observaciones` / `Rechazado`) aplicadas solo a ambientes QA y STG; en ADK la solicitud va por correo y la ejecucion la realizan DevOps o el Tech Lead con `agents-cli deploy` o el job de `main.yml` protegido por aprobacion manual; horario de solicitud 8:00-17:00 en dias habiles; subcarpetas por modulo permitidas en backend; DTOs unicos en `application/dtos` con `class-validator` y `@ApiProperty`.
+- `backend-nest-hexagonal-cun/SKILL.md`: piso NestJS 12, Node 26 LTS, TypeScript 6.0, TypeORM 1.1, PostgreSQL 19, Jest 30, `@willsoto/nestjs-prometheus` 7; adaptador Fastify por defecto; prefijo global `/api/v1`; Swagger en `/docs/dev-only/swagger`; endpoint `GET /metrics` obligatorio; cobertura gate 70 % codigo nuevo (SonarQube) y objetivo 85 % global.
+- `backend-nest-hexagonal-cun/reference/13-politica-despliegue.md`: reescrito desde POL-FSW-DEP-001 con flujo de ambientes, calendario PRO, hotfix, rollback, checklists por rol, matriz de autorizaciones y matriz de calendario.
+- `front-angular-fab/SKILL.md`: piso Angular 22.3, Node 26 LTS, TypeScript 6.0, Jest 30, Cypress 16, ESLint 10 flat config; estructura `core/features/shared/layout`; cobertura gate 70 % codigo nuevo y objetivo 85 % global; nota de precedencia corregida (la skill manda solo en lo que la normativa Outline no regula).
+- `front-angular-fab/reference/09-politica-despliegue.md`: reescrito desde POL-FSW-DEP-001 con el mismo contenido normativo que backend adaptado a frontend.
+- `backend-nest-hexagonal-cun/reference/01-arquitectura-estructura.md` a `reference/12-antipatrones-buenas-practicas.md`: arbol de STACK 3.2 con subcarpetas por modulo (R26); prefijo global `/api/v1`; Swagger en `/docs/dev-only/swagger` (R15); Fastify por defecto (R20); TypeORM 1.x con migraciones y `synchronize: false`; PostgreSQL 19; Redis cache; metricas Prometheus con `@willsoto/nestjs-prometheus` y endpoint `/health`; unico juego de DTOs en `application/dtos` con `class-validator` y `@ApiProperty` (R27).
+- `front-angular-fab/reference/01-arquitectura-proyecto.md`: estructura `core/features/shared/layout` (R14), lazy loading, budgets en `angular.json`, telemetria Google Analytics / GTM y Core Web Vitals (R12).
+- `front-angular-fab/reference/02-componentes.md`: ruta de generacion con `--file-name-style-guide=2016` y nombres `feature.type.ts`.
+- `front-angular-fab/reference/04-testing-jest.md`: Jest 30, cobertura R9 (gate 70 % codigo nuevo, objetivo 85 % global), Cypress 16 E2E.
+- `front-angular-fab/reference/05-migracion-jest.md`: dependencias Jest 30 (`jest@30`, `jest-preset-angular@17`, `@types/jest@30`, `@angular-builders/jest@22`, `@faker-js/faker@10`).
+- `front-angular-fab/reference/08-convenciones-codigo.md`: ESLint 10 flat config `eslint.config.js` (R19), nombrado kebab-case 2016, Angular Material.
+- `google-adk-cun/reference/agente-base.md`: version `google-adk` 2.15.1, flujo de despliegue con `main.yml` y GitHub Environment de aprobacion manual (R24), compose local no versionado (R10).
+- `google-adk-cun/SKILL.md`: versiones `google-adk` 2.x y `google-agents-cli` 1.16+; enlaces de streaming corregidos (`https://adk.dev/live/index.md`, `https://adk.dev/live/get-started/index.md`, `https://adk.dev/live/get-started/streaming-python/index.md`); nueva referencia local `politica-despliegue.md`.
+- `qa-and-testing/SKILL.md`: fuentes normativas Outline en lugar de `testing.google.com`; cobertura R9 (gate 70 % codigo nuevo, objetivo 85 % global); E2E con Cypress; `metadata.sources` convertido de lista YAML a cadena escalar.
+- `qa-and-testing/reference/qa-checklist-cierre.md`: contenido alineado con QA-MET, CHECK y STACK 8.3; fuentes Outline.
+- `spec-driven-dev/SKILL.md`: `metadata.sources` convertido de lista YAML a cadena escalar.
+- `ux-design/SKILL.md`: `metadata.sources` convertido de lista YAML a cadena escalar.
+
+### Eliminado
+- `scripts/validate.sh` y la carpeta `scripts/`: el validador de estructura se elimina a peticion del usuario. La verificacion de estructura es manual: `name` = carpeta, `description` <= 1024 caracteres, `license: MIT`, `metadata` con valores escalares, `SKILL.md` <= 500 lineas, finales de linea LF (`.gitattributes`).
+
+### Corregido
+- `qa-and-testing/SKILL.md`, `spec-driven-dev/SKILL.md`, `ux-design/SKILL.md`: `metadata.sources` era una lista YAML; normalizado a cadena escalar conforme a la regla de frontmatter.
+- `google-adk-cun/SKILL.md`: enlaces de streaming de ADK corregidos a rutas vigentes (`adk.dev/live/...`).
+- `qa-and-testing/SKILL.md` y `qa-and-testing/reference/qa-checklist-cierre.md`: referencias a `testing.google.com` sustituidas por fuentes normativas Outline (QA-MET, CHECK, VER, POL-DEP, STACK).
+
+### Fuente
+- Documentos Outline: [POLITICA DE DESPLIEGUES DE SOFTWARE (POL-FSW-DEP-001)](https://vsdocs.cunapp.pro/doc/politica-de-despliegues-de-software-jLfrrOmXhU), [Politica de despliegue para aplicaciones](https://vsdocs.cunapp.pro/doc/politica-de-despliegue-para-aplicaciones-BvLUFkkCQw), [Estandares, Arquitectura y Stack Tecnologico](https://vsdocs.cunapp.pro/doc/estandares-arquitectura-y-stack-tecnologico-ntS5CnWnkQ), [QA: Metodologia de Trabajo](https://vsdocs.cunapp.pro/doc/qa-metodologia-de-trabajo-JGQS4SnlYm), [Checklist - Paso a produccion de App](https://vsdocs.cunapp.pro/doc/checklist-paso-a-produccion-de-app-oLfWOcIlSP), [Politica de Versionamiento](https://vsdocs.cunapp.pro/doc/politica-de-versionamiento-rWrLfEiuzC), [Lista de aplicaciones](https://vsdocs.cunapp.pro/doc/lista-de-aplicaciones-RDVFHUzKnm).
+- Resolucion de conflictos entre documentos (gana el mas reciente): R1 (ventana PRO lunes habil), R4 (ramas por ambiente), R8 (SemVer con sufijos), R9 (cobertura 70 % gate / 85 % objetivo), R10 (`docker-compose.yml` no versionado), R22 (WCAG 2.2 referencia unica), R23 (clases de resultado solo para ambientes), R24 (ejecucion ADK por DevOps/Tech Lead), R25 (horario de solicitud 8:00-17:00), R26 (subcarpetas por modulo en backend), R27 (DTOs unicos en `application/dtos`).
+
 ## [0.16.0] - 2026-08-08
 
 ### Agregado
@@ -19,7 +66,7 @@
 - `README.md`: nueva subseccion `### Instalar AGENTS_EJEMPLO.md (obligatorio)` en `## Instalacion`. Documenta que el archivo no lo distribuye `npx skills` por ser de raiz y no un skill, y da los comandos de instalacion para los dos alcances: global (`~/.config/opencode/AGENTS.md`, `~/.claude/CLAUDE.md`) y de repositorio (`AGENTS.md` en la raiz del proyecto). Incluye cuatro reglas de instalacion: renombrado obligatorio a `AGENTS.md`, prohibicion de sobrescribir a ciegas, acumulacion de alcances con precedencia del repositorio sobre el global, y ajuste de secciones dependientes del proyecto antes de la primera sesion.
 
 ### Modificado
-- `README.md`: nueva fila `qa-and-testing` en la tabla de skills disponibles (descripcion con clausula de obligatoriedad al cerrar feature y antes de PR) y nuevo bloque `qa-and-testing/` con su referencia en el arbol de `## Estructura`.
+- `README.md`: nueva fila `qa-and-testing` en la tabla de skills disponibles (descripcion con clausula de obligatoriedad al cerrar feature y antes de PR) y nuevo bloque `qa-and-testing/` en el arbol de `## Estructura`.
 - `README.md`: comentario de `AGENTS_EJEMPLO.md` en el arbol de `## Estructura` ampliado para advertir que no se distribuye y remitir a la seccion de instalacion.
 - `AGENTS.md`: anadida `qa-and-testing` a la lista de skills distribuidas.
 

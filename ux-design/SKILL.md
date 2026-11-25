@@ -9,10 +9,7 @@ license: MIT
 metadata:
   version: "1.0.0"
   category: diseno
-  sources:
-    - https://lawsofux.com
-    - https://www.w3.org/community/design-tokens/
-    - https://www.w3.org/WAI/WCAG22/quickref/
+  sources: "https://lawsofux.com, https://www.w3.org/community/design-tokens/, https://www.w3.org/WAI/WCAG22/quickref/"
 ---
 
 # UX/UI Design

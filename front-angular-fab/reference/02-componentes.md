@@ -10,7 +10,7 @@ Los componentes son **standalone por defecto** en Angular v22+. No usar `standal
 ## Generacion de componentes
 
 ```bash
-ng generate component feature/component-name
+ng generate component features/<feature>/components/<nombre>
 ```
 
 El CLI genera automaticamente:

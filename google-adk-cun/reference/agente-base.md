@@ -13,7 +13,7 @@ Este documento le da a un agente de IA el contexto mínimo y operativo para trab
 - Framework de agentes: `google-adk`.
 - Modelo LLM por defecto: Gemini (`AGENT_MODEL`, default `gemini-2.5-pro`).
 - Integración externa principal: MCP remoto (`streamable_http`).
-- Runtime: Docker (local) y Cloud Run (producción).
+- Runtime: Docker (local) y Cloud Run o Agent Engine (producción, según defina el proyecto).
 
 ## Estructura Relevante
 ```text
@@ -39,9 +39,9 @@ Este documento le da a un agente de IA el contexto mínimo y operativo para trab
 │           └── toolset_factory.py
 ├── config/mcp/servers.yaml
 ├── Dockerfile
-├── docker-compose.yml
+├── docker-compose.yml          # local only, not versioned (R10)
 ├── requirements.txt
-└── .github/workflows/deploy.yml
+└── .github/workflows/main.yml
 ```
 
 ## Arquitectura Operativa para servicio
@@ -53,11 +53,13 @@ Este documento le da a un agente de IA el contexto mínimo y operativo para trab
 ## Stack y Dependencias
 - Python: `3.11-slim-bookworm` en contenedor.
 - Dependencias relevantes (`requirements.txt`):
-  - `google-adk==1.26.0`
+  - `google-adk==2.15.1`
   - `mcp>=1.23.0`
   - `python-dotenv`
   - `litellm`
   - `psycopg[binary]>=3.2.0`
+
+**Nota:** la plantilla fue elevada al piso 2.x (`google-adk==2.15.1`, estable verificada 2026-11-25). Tras actualizar la dependencia se debe re-validar el agente con `agents-cli eval run`.
 
 ## Configuración y Variables de Entorno
 Variables esperadas:
@@ -74,13 +76,18 @@ Configuración MCP:
 
 ## Flujo de Despliegue
 - Local:
-  - `docker-compose up --build`
+  - `docker-compose up --build` (desarrollo local; `docker-compose.yml` no se versiona, R10)
   - Servicio dev: `adk web` en `:8000`
   - Servicio API: `adk api_server` en `:8001`
-- Producción:
-  - GitHub Actions (`.github/workflows/deploy.yml`)
-  - Build y push a Artifact Registry
-  - Deploy a Google Cloud Run (`us-central1`, servicio `agente-servicios`)
+- QA/STG/PRO:
+  - Solicitud por correo al Tech Lead (PROC-DEP); ver `politica-despliegue.md`.
+  - Ejecucion por DevOps o el Tech Lead: `agents-cli deploy` o el job de despliegue de `.github/workflows/main.yml` protegido por GitHub Environment con aprobacion manual.
+  - El equipo de desarrollo no ejecuta `agents-cli deploy` contra QA/STG/PRO.
+  - Deploy a Google Cloud Run (`us-central1`, servicio `agente-servicios`) o Agent Engine segun el proyecto defina.
+
+### Nota sobre CI y ramas
+
+El workflow `.github/workflows/main.yml` debe satisfacer lo requerido por la politica de despliegue: lint, pruebas/eval, SonarQube, build de Docker y tag automatico `vX.Y.Z` en `main`. El job de despliegue esta protegido por un GitHub Environment con aprobacion manual. Las ramas siguen el modelo `develop/qa/stg/main` conforme a la politica de versionamiento. Ver `politica-despliegue.md` para el detalle completo.
 
 ## Convenciones de Desarrollo
 - Mantener side-effects en `tools/`, no en prompts largos.

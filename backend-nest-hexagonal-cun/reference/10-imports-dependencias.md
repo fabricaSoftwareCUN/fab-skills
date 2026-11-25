@@ -2,18 +2,17 @@
 
 ## Objetivo
 
-Evitar acoplamiento incorrecto entre capas.
+Evitar acoplamiento incorrecto entre capas, conforme a la regla de dependencia de la Arquitectura Hexagonal (STACK §3.1).
 
 ## Domain
 
 Solo puede importar:
 
 - Funcionalidades nativas de TypeScript.
-- Otras entidades del dominio.
-- DTOs del dominio.
-- Enums del dominio.
-- Types del dominio.
-- Interfaces de repositorio del dominio.
+- Otras entidades del dominio (`domain/entities/`).
+- Enums y types del dominio (`domain/entities/`).
+- Puertos del dominio (`domain/ports/`).
+- Servicios de dominio (`domain/services/`).
 
 No puede importar:
 
@@ -31,16 +30,18 @@ No puede importar:
 Puede importar:
 
 - Todo lo permitido del dominio.
-- Puertos de aplicación.
-- Mappers de aplicación.
+- Puertos de dominio (`domain/ports/out/`, `domain/ports/in/`).
+- Mappers de aplicación (`application/mappers/`).
+- DTOs de aplicación (`application/dtos/`).
 - Decoradores mínimos de NestJS necesarios para inyección.
 - Herramientas de transformación cuando sean necesarias.
+
+Excepcion R27: Application puede importar `class-validator`, `class-transformer` y `@nestjs/swagger` unicamente dentro de `application/dtos/<modulo>/`.
 
 No puede importar:
 
 - Controladores.
-- DTOs de infraestructura.
-- Entidades TypeORM.
+- Entidades TypeORM (`.orm-entity.ts`).
 - Repositorios concretos.
 - Adaptadores concretos.
 - Configuración de infraestructura.
@@ -59,26 +60,27 @@ Puede importar:
 - class-validator.
 - SDKs externos.
 - Librerías técnicas.
+- `@willsoto/nestjs-prometheus` y `@prometheus-io/client`.
 
 ## Dirección permitida
 
 ```text
-Infrastructure → Application → Domain
+Infrastructure -> Application -> Domain
 ```
 
 ## Dirección prohibida
 
 ```text
-Domain → Application
-Domain → Infrastructure
-Application → Infrastructure
+Domain -> Application
+Domain -> Infrastructure
+Application -> Infrastructure
 ```
 
 ## Regla de inversión de dependencias
 
 Cuando Application necesite una capacidad externa:
 
-1. Define un puerto o interfaz.
-2. Usa ese puerto en el servicio de aplicación.
-3. Implementa el puerto en Infrastructure.
-4. Registra la implementación concreta en el módulo de infraestructura.
+1. Define un puerto en `domain/ports/out/`.
+2. Usa ese puerto en el caso de uso.
+3. Implementa el puerto en `infrastructure/adapters/`.
+4. Registra la implementación concreta en el módulo de infraestructura (`infrastructure/modules/`).

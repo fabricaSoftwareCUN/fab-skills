@@ -75,6 +75,8 @@ interface User {
 
 ## Convencion de archivos
 
+Patron general: `feature.type.ts` en kebab-case, consistente con `--file-name-style-guide=2016`.
+
 | Tipo        | Convencion                | Ejemplo                          |
 |-------------|---------------------------|----------------------------------|
 | Componentes | kebab-case.component.ts   | `my-component.component.ts`      |
@@ -84,8 +86,8 @@ interface User {
 | Utils       | kebab-case.utils.ts       | `form-errors.utils.ts`           |
 | Pipes       | kebab-case.pipe.ts        | `form-control.pipe.ts`           |
 | Tests       | kebab-case.spec.ts        | `auth.service.spec.ts`           |
-| Plantillas  | kebab-case.html           | `my-component.html`              |
-| Estilos     | kebab-case.scss           | `my-component.scss`              |
+| Plantillas  | kebab-case.component.html | `my-component.component.html`    |
+| Estilos     | kebab-case.component.scss | `my-component.component.scss`    |
 | Guards      | kebab-case.guard.ts       | `auth.guard.ts`                  |
 | Interceptores | kebab-case.interceptor.ts | `error.interceptor.ts`         |
 
@@ -98,6 +100,65 @@ interface User {
 | Pipes       | PascalCase + Pipe         | `FormControlPipe`                |
 | Guards      | camelCase (funcional)     | `authGuard`                      |
 | Interceptores | camelCase (funcional)   | `errorInterceptor`               |
+
+---
+
+## ESLint (flat config obligatoria)
+
+ESLint 10 no soporta `.eslintrc.json`. Todos los proyectos usan `eslint.config.js` con `angular-eslint` 22.
+
+### eslint.config.js
+
+```javascript
+// @ts-check
+const eslint = require('@eslint/js');
+const tseslint = require('typescript-eslint');
+const angular = require('angular-eslint');
+
+module.exports = tseslint.config(
+  {
+    files: ['**/*.ts'],
+    extends: [
+      eslint.configs.recommended,
+      ...tseslint.configs.recommended,
+      ...tseslint.configs.stylistic,
+      ...angular.configs.tsRecommended,
+    ],
+    processor: angular.processInlineTemplates,
+    rules: {
+      '@angular-eslint/directive-selector': [
+        'error',
+        { type: 'attribute', prefix: 'app', style: 'camelCase' },
+      ],
+      '@angular-eslint/component-selector': [
+        'error',
+        { type: 'element', prefix: 'app', style: 'kebab-case' },
+      ],
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    },
+  },
+  {
+    files: ['**/*.html'],
+    extends: [
+      ...angular.configs.templateRecommended,
+      ...angular.configs.templateAccessibility,
+    ],
+    rules: {},
+  },
+);
+```
+
+### Scripts en package.json
+
+```json
+{
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  }
+}
+```
 
 ---
 
@@ -115,15 +176,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 // 3. Librerias de terceros
-import { ButtonModule } from 'primeng/button';
-import { TableModule } from 'primeng/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
 
 // 4. Imports internos del proyecto (@shared, @core)
 import { AuthService } from '@core/services/auth.service';
 import { User } from '@shared/interfaces/user.interface';
 import { isInvalidField, getFieldError } from '@shared/utils/form/form-errors';
 
-// 5. Imports relativos (mismo modulo o carpeta)
+// 5. Imports relativos (mismo feature o carpeta)
 import { ItemDetailComponent } from './item-detail/item-detail.component';
 ```
 
@@ -133,9 +194,55 @@ import { ItemDetailComponent } from './item-detail/item-detail.component';
 |---------------------------------------------------|------------|
 | Separar grupos con linea en blanco                | Obligatorio |
 | Usar alias `@shared` y `@core` para paths internos | Obligatorio |
-| Imports relativos solo dentro del mismo modulo     | Obligatorio |
+| Imports relativos solo dentro del mismo feature    | Obligatorio |
 | Imports circulares                                 | PROHIBIDO  |
 | Imports de barrel (`index.ts`) excesivos           | Evitar     |
+
+---
+
+## Control de flujo en plantillas
+
+Usar la sintaxis nativa de control de flujo. PROHIBIDO `*ngIf`, `*ngFor` (deprecados desde Angular 20).
+
+### @if (reemplaza *ngIf)
+
+```html
+@if (user()) {
+  <app-user-profile [user]="user()!" />
+} @else if (isLoading()) {
+  <app-spinner />
+} @else {
+  <p>No se encontro el usuario</p>
+}
+```
+
+### @for con track (reemplaza *ngFor + trackBy)
+
+`@for` con `track` cumple el requisito de `trackBy` de STACK 4.4.
+
+```html
+@for (item of items(); track item.id) {
+  <app-item-card [item]="item" />
+} @empty {
+  <p>No hay elementos para mostrar</p>
+}
+```
+
+### @switch (reemplaza *ngSwitch)
+
+```html
+@switch (status()) {
+  @case ('active') {
+    <span class="badge badge--success">Activo</span>
+  }
+  @case ('inactive') {
+    <span class="badge badge--warning">Inactivo</span>
+  }
+  @default {
+    <span class="badge">Desconocido</span>
+  }
+}
+```
 
 ---
 
@@ -212,7 +319,7 @@ export const getFieldError = (
 
 <!-- CORRECTO — usar helpers compartidos -->
 @if (isInvalidField(form, 'email')) {
-  <small class="p-error">{{ getFieldError(form, 'email') }}</small>
+  <small mat-error>{{ getFieldError(form, 'email') }}</small>
 }
 ```
 

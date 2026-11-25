@@ -2,19 +2,67 @@
 
 ## Responsabilidad
 
-Documentar la API HTTP desde la capa Infrastructure.
+Documentar la API HTTP desde la capa Infrastructure, conforme a STACK §3.3 y R15.
 
 ## Ubicación
 
-Swagger debe usarse únicamente en infraestructura, principalmente en:
+Swagger se usa en los controladores de infraestructura y en los DTOs de `application/dtos/<modulo>/` (R27):
 
 ```text
-infrastructure/{module}/controllers/
-infrastructure/{module}/controllers/dto/
+infrastructure/controllers/
+application/dtos/<modulo>/
 infrastructure/settings/docs/
 ```
 
-## DTOs de infraestructura
+## Configuración global
+
+En `main.ts`:
+
+```typescript
+import { NestFactory } from '@nestjs/core';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { FastifyAdapter } from '@nestjs/platform-fastify';
+import { AppModule } from './app.module';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule, new FastifyAdapter());
+
+  // Prefijo global obligatorio; /metrics y /health quedan excluidos
+  app.setGlobalPrefix('api/v1', { exclude: ['metrics', 'health'] });
+
+  // Swagger UI en /docs/dev-only/swagger (R15)
+  const config = new DocumentBuilder()
+    .setTitle('API de la Fabrica de Software CUN')
+    .setDescription('Documentacion de los servicios de la CUN')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('docs/dev-only/swagger', app, document);
+
+  await app.listen(3000, '0.0.0.0');
+}
+bootstrap();
+```
+
+Reglas:
+
+- Prefijo global: `app.setGlobalPrefix('api/v1', { exclude: ['metrics', 'health'] })`.
+- Swagger UI en `/docs/dev-only/swagger` via `SwaggerModule.setup('docs/dev-only/swagger', app, document)`.
+- La URL de Swagger debe registrarse en el inventario de aplicaciones (INV).
+
+## Decoradores obligatorios (R15)
+
+| Decorador | Uso |
+|---|---|
+| `@ApiTags('Usuarios')` | Agrupar endpoints por recurso en el controlador |
+| `@ApiOperation({ summary: 'Crea un nuevo usuario' })` | Describir la acción del endpoint |
+| `@ApiResponse({ status: 201, description: 'Usuario creado exitosamente.' })` | Documentar las posibles respuestas HTTP |
+| `@ApiProperty()` | En los DTOs para describir cada campo y sus validaciones |
+
+## DTOs
+
+Los DTOs viven en `application/dtos/<modulo>/` y son decorados con `@ApiProperty` para documentar cada campo (R27). Los controladores de infraestructura reutilizan estos DTOs.
 
 Deben documentar:
 
@@ -41,24 +89,6 @@ Deben documentar:
 ## Reglas
 
 - Swagger no debe usarse en Domain.
-- Swagger no debe usarse en Application.
-- La documentación debe reflejar los DTOs de infraestructura.
+- La documentación debe reflejar los DTOs de `application/dtos/<modulo>/` (R27).
 - Los errores esperados deben estar documentados.
 - Los endpoints deben tener descripción funcional clara.
-
-## Configuración global de Swagger
-
-Debe ubicarse en:
-
-```text
-infrastructure/settings/docs/
-```
-
-Debe definir:
-
-- Título de la API.
-- Descripción.
-- Versión.
-- Seguridad.
-- Prefijo global si aplica.
-- Ruta de documentación.

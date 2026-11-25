@@ -20,6 +20,7 @@ Identifica la tarea o interes del usuario y consulta la seccion tematica corresp
 - Prioriza proporcionar codigo de ejemplo en Python al explicar un concepto.
 - Si el usuario pregunta sobre la plantilla base de agente ADK para mesa de ayuda, carga `reference/agente-base.md`.
 - Consulta `reference/buenas-practicas.md` antes de implementar, modificar o revisar agentes ADK.
+- Consulta `reference/politica-despliegue.md` antes de solicitar o ejecutar cualquier despliegue del agente.
 - Precedencia: esta skill aporta el **contexto CUN** (plantilla base, buenas practicas locales); el **procedimiento** lo dicta la suite `google-agents-cli-*`. Ante conflicto, manda la suite.
 - Los comandos `adk web` y `adk api_server` que aparecen en `reference/agente-base.md` son runtime local dentro del contenedor. No sustituyen a `agents-cli` en el ciclo de vida del agente.
 
@@ -64,6 +65,32 @@ La skill se carga ANTES de empezar la fase, no cuando el problema ya aparecio.
 - Crear la estructura del proyecto a mano en lugar de usar `scaffold`: se pierden el boilerplate de eval, la configuracion de CI/CD y las convenciones del manifiesto.
 - Sustituir la fase de evaluacion por un unico `agents-cli run`: una sola respuesta correcta no es una suite de pruebas.
 - Desplegar sin aprobacion humana explicita.
+
+## Reglas de despliegue
+
+Resumen de las reglas duras de despliegue de la Fabrica de Software CUN. Para el detalle completo consulta `reference/politica-despliegue.md`.
+
+- **R1 - Ventana de PRO:** unicamente en **lunes habil**; si el lunes no es habil, el siguiente dia habil. Martes a viernes, fines de semana y festivos requieren excepcion autorizada por el Vicerrector de Servicios Digitales.
+- **R2 - Autorizaciones:** QA y STG se solicitan al Tech Lead. PRO lunes habil requiere aprobacion del QA en el hilo de correo y checklist aprobado por el Tech Lead, o solicitud directa del Coordinador de la Fabrica por el canal debido. PRO martes a viernes: Vicerrector de Servicios Digitales. PRO sabado, domingo o festivo: autorizacion correspondiente (§28), bajo la autorizacion general del Vicerrector (§11). Hotfix critico lo autoriza el Coordinador de la Fabrica.
+- **R4 - Ramas:** `develop`, `qa`, `stg`, `main`. Promocion progresiva y unidireccional por PR.
+- **R5 - Ramas efimeras:** `<tipo>/<ID_HU>-<slug-kebab>`. Tipos: `feature`, `bugfix`, `hotfix`, `refactor`, `docs`, `style`, `test`, `chore`, `config`.
+- **R6 - Origen y destino:** ramas efimeras salen de `develop` y vuelven a `develop` por PR; `hotfix` sale de `main` y vuelve a `main` y `develop`.
+- **R7 - Requisitos de PR:** al menos un revisor del equipo; Tech Lead obligatorio en cambios de arquitectura y en todo PR hacia `stg` y `main`; CI en verde.
+- **R8 - Versionamiento:** SemVer `X.Y.Z` con sufijos por rama (`-alpha`, `-beta`, `-rc.N`). Tag `vX.Y.Z` en `main` creado automaticamente por CI. `CHANGELOG.md` en formato Keep a Changelog.
+- **R10 - `.gitignore`:** no versionar `docker-compose.yml`, `docker-compose.*.yml`, `compose.yml`, `compose.*.yml`, `*.sh`, `.env`, `.env.*`.
+- **R11 - Variables de entorno:** `SNAKE_CASE`, adjuntas como `.txt` con bloques `ENVS NUEVAS / ENVS MODIFICADAS / ENVS ELIMINADAS`. Nunca en el repositorio.
+- **R12 - Observabilidad:** si el agente sirve HTTP custom, exponer `GET /metrics` en formato Prometheus; si no, usar `google-agents-cli-observability`.
+- **Eval suite:** `agents-cli eval run` debe estar en verde antes de solicitar QA/STG/PRO.
+- **Despliegue (R24):** la solicitud va por correo (PROC-DEP); lo ejecuta DevOps o el Tech Lead con `agents-cli deploy` (Cloud Run o Agent Engine segun el proyecto defina) o con el job de despliegue de `main.yml` protegido por aprobacion manual, siempre con aprobacion humana explicita. El equipo de desarrollo solo usa `agents-cli deploy` contra su entorno de desarrollo, nunca contra QA, STG ni PRO.
+
+## Versiones del stack
+
+| Componente | Version estable | Piso exigido |
+|---|---|---|
+| `google-adk` (Python) | 2.15.1 (verificada 2026-11-25) | 2.x |
+| `google-agents-cli` | 1.16.0 | 1.16 |
+
+Regla transversal: verificar la version exacta mas reciente con `pip index versions google-adk` o `pip index versions google-agents-cli` antes de instalar; fijar la version exacta en el manifiesto y lockfile.
 
 ## Regla de consulta obligatoria
 
@@ -139,9 +166,9 @@ Sessions, State, Memory, Context, Events y Artifacts. Manejo de estado entre age
 
 Streaming bidireccional de audio y texto con Gemini Live API.
 
-- **Referencia**: https://adk.dev/get-started/streaming/index.md
-- **Quickstart Python**: https://adk.dev/get-started/streaming/quickstart-streaming/index.md
-- **Guia de desarrollo**: https://adk.dev/streaming/dev-guide/part1/index.md
+- **Referencia**: https://adk.dev/live/index.md
+- **Quickstart Python**: https://adk.dev/live/get-started/index.md
+- **Guia de desarrollo**: https://adk.dev/live/get-started/streaming-python/index.md
 
 ### 8. Graphs y Workflows
 
@@ -206,3 +233,4 @@ Ante el fallo de un comando: `agents-cli <comando> --help` termina con una linea
 |---------|-------------|
 | [agente-base.md](./reference/agente-base.md) | Contexto operativo para la plantilla base de agente ADK (mesa de ayuda con Zoho Desk). Estructura, stack, variables de entorno, flujo de despliegue y convenciones. |
 | [buenas-practicas.md](./reference/buenas-practicas.md) | Anti-patrones prohibidos, convenciones para subagentes y checklist de aceptacion para cualquier agente ADK. |
+| [politica-despliegue.md](./reference/politica-despliegue.md) | Politica de despliegue de la Fabrica de Software CUN adaptada a agentes ADK. Flujo de ambientes, calendario PRO, hotfix, rollback, checklists, matriz de autorizaciones y proceso de solicitud. |

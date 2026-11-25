@@ -2,52 +2,51 @@
 
 ## Objetivo
 
-Mantener consistencia en nombres de archivos, clases, interfaces y módulos.
+Mantener consistencia en nombres de archivos, clases, interfaces y módulos, conforme a STACK §3.2.
 
 ## Archivos
 
-| Tipo | Convención |
-|---|---|
-| Entidades de dominio | PascalCase |
-| DTOs | PascalCase con sufijo `Dto` |
-| Interfaces | PascalCase con prefijo `I` |
-| Enums | PascalCase |
-| Servicios | PascalCase con sufijo `Service` |
-| Controladores | PascalCase con sufijo `Controller` |
-| Mappers | PascalCase con sufijo `Mapper` |
-| Adaptadores | PascalCase con sufijo `Adapter` |
-| Módulos NestJS | kebab-case |
+| Tipo | Convención | Ejemplo |
+|---|---|---|
+| Entidad de dominio | kebab-case con sufijo `.entity.ts` | `user.entity.ts` |
+| Entidad TypeORM | kebab-case con sufijo `.orm-entity.ts` | `user.orm-entity.ts` |
+| Puerto de repositorio | kebab-case con sufijo `.repository.port.ts` | `user.repository.port.ts` |
+| Caso de uso | kebab-case con sufijo `.use-case.ts` | `create-user.use-case.ts` |
+| DTO | kebab-case con sufijo `.dto.ts` | `create-user.dto.ts` |
+| Mapper | kebab-case con sufijo `.mapper.ts` | `user.mapper.ts` |
+| Controlador | kebab-case con sufijo `.controller.ts` | `user.controller.ts` |
+| Adaptador | kebab-case con sufijo `.adapter.ts` | `postgres.user.repository.adapter.ts` |
+| Servicio de dominio | kebab-case con sufijo `.domain-service.ts` | `user.domain-service.ts` |
+| Módulo NestJS | kebab-case | `user.module.ts` |
 
 ## Domain
 
 | Elemento | Convención |
 |---|---|
-| Entidad | Clase pura del dominio |
-| DTO | Interface o type |
-| Enum | Sufijo `Enum` cuando ayude a claridad |
-| Repositorio | Interface con prefijo `I` |
-| Type auxiliar | Nombre descriptivo del concepto |
+| Entidad | Clase pura del dominio, PascalCase |
+| Enum / Type | Nombre descriptivo del concepto de negocio |
+| Puerto de salida | Interface con prefijo `I`, sufijo `RepositoryPort` |
+| Puerto de entrada | Interface con prefijo `I`, sufijo `UseCasePort` (opcional) |
+| Servicio de dominio | PascalCase con sufijo `DomainService` |
 
 ## Application
 
 | Elemento | Convención |
 |---|---|
-| Servicio | Acción + entidad + `Service` |
-| Puerto | Interface que describe capacidad |
+| Caso de uso | Acción + entidad + `UseCase` |
+| DTO | kebab-case con sufijo `.dto.ts`, PascalCase con sufijo `Dto` |
 | Mapper | Entidad o caso + `Mapper` |
-| Módulo | `app-{module}.module.ts` |
+| Módulo | kebab-case |
 
 ## Infrastructure
 
 | Elemento | Convención |
 |---|---|
 | Controller | Recurso + `Controller` |
-| DTO de entrada | Acción + recurso + `RequestDto` |
-| DTO de salida | Acción + recurso + `ResponseDto` |
-| Entity TypeORM | Recurso + motor + `Entity` |
-| Repository concreto | Recurso + `RepositoryImpl` |
+| Entity TypeORM | Recurso + `OrmEntity` |
+| Repository concreto | Recurso + `RepositoryAdapter` |
 | Adapter | Capacidad + `Adapter` |
-| Módulo | `infra-{module}.module.ts` |
+| Módulo | kebab-case |
 
 ## Reglas generales
 
@@ -56,3 +55,4 @@ Mantener consistencia en nombres de archivos, clases, interfaces y módulos.
 - No nombrar puertos según tecnologías concretas.
 - No nombrar entidades de dominio según tablas de base de datos.
 - No mezclar nombres de infraestructura dentro de Domain.
+- Todos los archivos usan `kebab-case` en el nombre de archivo.

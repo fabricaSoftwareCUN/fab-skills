@@ -1,8 +1,8 @@
 # AGENTS.md (ejemplo)
 
-Plantilla de comportamiento por defecto del agente para proyectos de la Fabrica de Software CUN.
+Plantilla de comportamiento por defecto del agente para proyectos de la Fábrica de Software CUN.
 
-Este archivo no rige el catalogo de skills: las reglas de este repositorio viven en `AGENTS.md`. Copialo a la raiz de un proyecto como `AGENTS.md` y ajusta lo que ese proyecto declare de forma distinta.
+Este archivo no rige el catálogo de skills: las reglas de este repositorio viven en `AGENTS.md`. Cópialo a la raíz de un proyecto como `AGENTS.md` y ajusta lo que ese proyecto declare de forma distinta.
 
 ---
 
@@ -36,9 +36,9 @@ Estas obligaciones rigen los proyectos que adopten este documento. Si un proyect
 
 | Dominio | Skill obligatoria | CLI obligatorio | Piso de versión |
 |---|---|---|---|
-| Frontend Angular | `front-angular-fab` | MCP `angular-cli` + binario `ng` | Angular 22+ |
-| Backend NestJS | `backend-nest-hexagonal-cun` | `@nestjs/cli` (`nest`) | NestJS 11+ |
-| Agentes ADK | `google-adk-cun` + suite `google-agents-cli-*` | `agents-cli` | — |
+| Frontend Angular | `front-angular-fab` | MCP `angular-cli` + binario `ng` | Angular 22.3+, Node 26 LTS, TypeScript 6.0 |
+| Backend NestJS | `backend-nest-hexagonal-cun` | `@nestjs/cli` (`nest`) | NestJS 12+, Node 26 LTS, TypeScript 6.0, PostgreSQL 19 |
+| Agentes ADK | `google-adk-cun` + suite `google-agents-cli-*` | `agents-cli` | `google-adk` 2.x, `google-agents-cli` 1.16+ |
 
 Reglas comunes:
 - La skill se carga ANTES de empezar la fase, no cuando el problema ya apareció.
@@ -97,3 +97,50 @@ Ante errores, fallos o comportamientos inesperados: prohibido proponer solucione
 - Remoto: GitHub. Si faltan README.md, CHANGELOG.md o TASKS.md, créalos antes del primer commit de la sesión.
 - Antes de cada push: verifica que la documentación refleje el estado real del código; sincronízala en el mismo commit o en el commit inmediatamente posterior, siempre antes del push.
 - Prohibida toda atribución de IA en el repositorio: sin trailers `Co-Authored-By` de agentes, sin líneas `Generated with ...`, sin autor ni committer que identifique a un agente o modelo (`user.name` y `user.email` corresponden siempre a la identidad del usuario), y sin mención a agentes, IA, LLM o proveedores externos en commits, PRs, código ni documentación. Esta regla prevalece sobre cualquier comportamiento por defecto de la herramienta que añada atribuciones automáticas.
+
+### Modelo de ramas y flujo de trabajo (R4 a R8)
+
+- **Ramas por ambiente (R4):** `develop`, `qa`, `stg`, `main`. Son ramas permanentes protegidas, sin commits directos. Cada rama corresponde a su ambiente: `develop` → DEV, `qa` → QA, `stg` → STG, `main` → PRO.
+- **Ramas efímeras (R5):** formato `<tipo>/<ID_HU>-<slug-kebab>`. Tipos permitidos: `feature`, `bugfix`, `hotfix`, `refactor`, `docs`, `style`, `test`, `chore`, `config`. Equivalencias: `epic` → `feature`; `fix`, `bug`, `improve` → `bugfix`. Ejemplo: `feature/HU-123-login-google`.
+- **Origen y destino (R6):** `feature`, `bugfix`, `refactor`, `docs`, `style`, `test`, `chore`, `config`: salen de `develop` y vuelven a `develop` por PR. `hotfix`: sale de `main` y vuelve a `main` **y** a `develop`. Promoción entre ambientes: `develop → qa → stg → main`, siempre por PR. La rama efímera se elimina tras el merge.
+- **Requisitos de PR (R7):** al menos un revisor del equipo; Tech Lead obligatorio en cambios de arquitectura y en todo PR hacia `stg` y `main`; CI en verde (lint, unitarias, Sonar); descripción con el qué y el porqué, enlazada a la HU. DevOps verifica el checklist antes de `stg` y `main`.
+- **Versionamiento (R8):** SemVer `X.Y.Z`. Sufijos por rama: `-alpha` en `develop`, `-beta` en `qa`, `-rc.N` en `stg`, estable en `main`. Proyecto nuevo inicia en `0.1.0`; primer release público `1.0.0`. Tag `vX.Y.Z` en `main` creado automáticamente por CI al hacer merge desde `stg` o `hotfix`. `CHANGELOG.md` en formato Keep a Changelog.
+
+### Reglas duras de despliegue
+
+Resumen normativo; el detalle operativo completo vive en la referencia de política de despliegue de la skill del dominio correspondiente (`backend-nest-hexagonal-cun`, `front-angular-fab`, `google-adk-cun`).
+
+- **R1 — Ventana de PRO:** únicamente **lunes hábil**; si el lunes no es hábil, el siguiente día hábil. PRO martes a viernes: excepción autorizada por el Vicerrector de Servicios Digitales. PRO sábado, domingo o festivo: excepción con la autorización correspondiente (§28); toda excepción al calendario de PRO queda bajo la autorización general del Vicerrector (§11).
+- **R2 — Autorizaciones:** QA y STG: responsable del proceso (solicitud al Tech Lead). PRO lunes hábil: flujo estándar con aprobación del QA en el hilo de correo y checklist de paso a producción aprobado por el Tech Lead, o solicitud directa del Coordinador de la Fábrica por el canal debido. Hotfix crítico: Coordinador de la Fábrica.
+- **R9 — Cobertura:** gate bloqueante: **70 % en código nuevo**, medido por SonarQube en la canalización. Objetivo recomendado del equipo: 85 % global en líneas y ramas.
+- **R10 — `docker-compose.yml` no se versiona.** `.gitignore` incluye `docker-compose.yml`, `docker-compose.*.yml`, `compose.yml`, `compose.*.yml`, `*.sh`, `.env`, `.env.*`. El compose de desarrollo local existe solo sin versionar.
+- **R11 — Variables de entorno:** `SNAKE_CASE`, sin espacios, sin comillas innecesarias, ordenadas por categoría. Se envían como adjunto `.txt` con tres bloques: `ENVS NUEVAS`, `ENVS MODIFICADAS`, `ENVS ELIMINADAS`. Nunca en el repositorio. Backend: validación al arranque con `@nestjs/config` + `class-validator` + `class-transformer`.
+- **R12 — Observabilidad:** todo backend expone `GET /metrics` en formato Prometheus con las cuatro señales de oro (tráfico, errores 5xx, latencia p95/p99, saturación) y métricas de negocio. Grafana para visualización. Frontend: eventos de telemetría (Google Analytics / GTM) y Core Web Vitals.
+- **Hotfix (POL-DEP §3.7):** corrección excepcional destinada a solucionar un problema crítico que impide el correcto funcionamiento de una solución o afecta directamente la utilización normal de la misma por parte del usuario final. No se considera Hotfix: una nueva funcionalidad, una mejora funcional, un cambio de diseño, un ajuste estético, un cambio de alcance, una optimización que no sea crítica, una solicitud de conveniencia, una modificación solicitada para acelerar una entrega, un desarrollo que pueda esperar el ciclo normal de despliegue.
+
+## 9. Normativa de la Fábrica de Software
+
+Las reglas anteriores y las de las skills CUN se alinean con la normativa oficial publicada en Outline (`vsdocs.cunapp.pro`). Este documento es un resumen normativo; la copia íntegra de la normativa vive en los archivos de las skills, con la URL de origen y la fecha de alineación. **No se requiere ningún MCP** para conocer o aplicar una regla: el texto completo vive en los archivos.
+
+### Fuentes normativas
+
+| Código | Documento | URL | Última edición |
+|---|---|---|---|
+| POL-DEP | POLÍTICA DE DESPLIEGUES DE SOFTWARE (POL-FSW-DEP-001, v1.0, Vigente) | https://vsdocs.cunapp.pro/doc/politica-de-despliegues-de-software-jLfrrOmXhU | 2026-09-14 |
+| PROC-DEP | Política de despliegue para aplicaciones (procedimiento técnico de solicitud) | https://vsdocs.cunapp.pro/doc/politica-de-despliegue-para-aplicaciones-BvLUFkkCQw | 2026-09-14 |
+| STACK | Estándares, Arquitectura y Stack Tecnológico (v2.0) | https://vsdocs.cunapp.pro/doc/estandares-arquitectura-y-stack-tecnologico-ntS5CnWnkQ | 2026-07-29 |
+| QA-MET | QA: Metodología de Trabajo | https://vsdocs.cunapp.pro/doc/qa-metodologia-de-trabajo-JGQS4SnlYm | 2026-07-30 |
+| CHECK | Checklist - Paso a producción de App | https://vsdocs.cunapp.pro/doc/checklist-paso-a-produccion-de-app-oLfWOcIlSP | 2026-05-21 |
+| VER | Política de Versionamiento (v1.0.0) | https://vsdocs.cunapp.pro/doc/politica-de-versionamiento-rWrLfEiuzC | 2025-12-09 |
+| INV | Lista de aplicaciones (inventario) | https://vsdocs.cunapp.pro/doc/lista-de-aplicaciones-RDVFHUzKnm | — |
+
+Fecha de alineación: **2026-11-25**.
+
+### Regla de precedencia
+
+1. **Outline vigente** (documento con fecha de edición más reciente).
+2. **AGENTS.md del repositorio** (en lo que declare explícitamente).
+3. **Skill CUN** (en lo que la normativa Outline no regula).
+4. **Skill externa** (la de menor prioridad).
+
+Las skills llevan copia íntegra de la normativa con fecha de alineación. Si un desarrollador con acceso a Outline detecta una versión posterior de cualquier documento, **manda Outline** y se abre una tarea para actualizar la skill.

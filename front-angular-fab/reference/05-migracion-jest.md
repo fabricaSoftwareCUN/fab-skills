@@ -1,6 +1,6 @@
-# Migracion de Jasmine + Karma a Jest (Angular 22+)
+# Migracion de Jasmine + Karma a Jest 30 (Angular 22+)
 
-Guia paso a paso para migrar un proyecto Angular de Jasmine + Karma a Jest.
+Guia paso a paso para migrar un proyecto Angular de Jasmine + Karma a Jest 30.
 
 ---
 
@@ -23,23 +23,22 @@ npm uninstall \
 
 ## Dependencias a agregar
 
-Instalar Jest y sus complementos para Angular:
+Instalar Jest 30 y sus complementos para Angular:
 
 ```bash
 npm install --save-dev \
-  jest@^30.0.0 \
-  jest-preset-angular@^17.0.0 \
-  @types/jest@^30.0.0 \
+  jest@30 \
+  jest-preset-angular@17 \
+  @types/jest@30 \
   ts-node@^10.9.0
 ```
 
-> Las versiones son las exigidas por Angular 22: `jest-preset-angular@17` declara peer
-> `@angular/core >=20.0.0 <23.0.0` y `jest ^30.0.0`. Bajar cualquiera de los tres rompe la resolucion.
+> `jest-preset-angular@17` declara peer `@angular/core >=20.0.0 <23.0.0`, `jest ^30.0.0` y `jsdom >= 26`. Bajar cualquiera de los tres rompe la resolucion. Verificar la version exacta con `npm view jest-preset-angular version` antes de instalar y fijar la version exacta en manifiesto y lockfile.
 
 Para generacion de datos de prueba (opcional pero recomendado):
 
 ```bash
-npm install --save-dev @faker-js/faker@^10.0.0
+npm install --save-dev @faker-js/faker
 ```
 
 ---
@@ -85,6 +84,8 @@ const config: Config = {
 export default config;
 ```
 
+> El `coverageThreshold` al 85% refleja el objetivo recomendado del equipo. El gate bloqueante es 70% en codigo nuevo, medido por SonarQube en la canalizacion.
+
 ### src/setup-jest.ts
 
 Crear el archivo de inicializacion:
@@ -125,7 +126,7 @@ Cambiar el builder de test en `angular.json`:
 Instalar el builder:
 
 ```bash
-npm install --save-dev @angular-builders/jest@^22.0.0
+npm install --save-dev @angular-builders/jest
 ```
 
 ### package.json scripts
@@ -306,6 +307,19 @@ Eliminar cualquier referencia a Zone.js en archivos de test.
 
 ---
 
+## E2E con Cypress 16
+
+Tras la migracion a Jest, Cypress 16 queda como framework E2E (propiedad de QA).
+
+```bash
+npm install --save-dev cypress@16
+npx cypress open
+```
+
+Ver [04-testing-jest.md](04-testing-jest.md#e2e-con-cypress-16) para la estructura de carpetas y reglas.
+
+---
+
 ## Ejemplo completo antes / despues
 
 ### Antes (Jasmine + Karma)
@@ -351,7 +365,8 @@ describe('UserService', () => {
 ### Despues (Jest + Angular 22+)
 
 ```typescript
-import { TestBed, ApplicationRef } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { ApplicationRef } from '@angular/core';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { UserService } from './user.service';
