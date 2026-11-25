@@ -10,8 +10,7 @@ license: MIT
 metadata:
   version: "1.1.0"
   category: metodologia
-  sources:
-    - https://github.com/github/spec-kit/blob/main/spec-driven.md
+  sources: "https://github.com/github/spec-kit/blob/main/spec-driven.md"
 ---
 
 # Spec-Driven Development

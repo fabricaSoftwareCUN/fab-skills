@@ -1,8 +1,9 @@
 # Testing con Jest - Fabrica de Software CUN
 
-## Framework: Jest
+## Framework: Jest 30
 
-Todas las pruebas unitarias del proyecto se escriben con **Jest** (no Jasmine ni Karma).
+Todas las pruebas unitarias del proyecto se escriben con **Jest 30** + `jest-preset-angular` 17 (no Jasmine ni Karma).
+
 Cubrir los siguientes artefactos:
 
 - Componentes (standalone)
@@ -45,7 +46,21 @@ El agente **DEBE** leer el archivo de implementacion antes de escribir cualquier
 
 ## Cobertura
 
-Minimo **85%** de cobertura por archivo.
+- **Gate bloqueante**: 70% de cobertura en codigo nuevo, medido por SonarQube en la canalizacion.
+- **Objetivo recomendado del equipo**: 85% global en lineas y ramas.
+
+Ejemplo de `coverageThreshold` en `jest.config.ts` al objetivo del 85%:
+
+```typescript
+coverageThreshold: {
+  global: {
+    branches: 85,
+    functions: 85,
+    lines: 85,
+    statements: 85,
+  },
+},
+```
 
 Comando para verificar cobertura individual:
 
@@ -232,3 +247,42 @@ faker.seed(123);
 | Mocks hardcodeados dentro de tests               | PROHIBIDO  |
 | Uso de `any` en mocks                            | PROHIBIDO  |
 | Duplicar estructuras de mock entre archivos      | PROHIBIDO  |
+
+---
+
+## E2E con Cypress 16
+
+Las pruebas end-to-end son responsabilidad del **equipo de QA** y se ejecutan con **Cypress 16**.
+
+### Instalacion
+
+```bash
+npm install --save-dev cypress@16
+npx cypress open
+```
+
+### Estructura de carpetas
+
+```text
+cypress/
+├── e2e/                  # especificaciones E2E
+│   ├── login.cy.ts
+│   └── dashboard.cy.ts
+├── fixtures/             # datos de prueba
+└── support/
+    ├── commands.ts
+    └── e2e.ts
+```
+
+### Comandos
+
+```bash
+npx cypress open    # modo interactivo
+npx cypress run     # modo headless (CI)
+```
+
+### Reglas
+
+- QA disena y mantiene los casos E2E.
+- Los desarrolladores enfocan sus pruebas en unitarias e integracion.
+- Cypress corre en CI como job independiente (ver `main.yml` en [09-politica-despliegue.md](09-politica-despliegue.md)).

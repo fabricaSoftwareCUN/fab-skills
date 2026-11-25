@@ -4,22 +4,33 @@
 
 La capa Application contiene los casos de uso del sistema. Su función es coordinar el dominio, ejecutar flujos de negocio y depender únicamente de contratos abstractos.
 
-## Estructura por módulo
+## Estructura
+
+Conforme a STACK §3.2:
 
 ```text
-application/{module}/
-├── {action}.service.ts
-├── app-{module}.module.ts
-├── ports/
+application/
+├── use-cases/<modulo>/
+│   └── <accion>.use-case.ts
+├── dtos/<modulo>/
+│   └── <nombre>.dto.ts
 └── mappers/
+    └── <nombre>.mapper.ts
 ```
 
-## Servicios de aplicación
+## Casos de uso
+
+Ubicación:
+
+```text
+application/use-cases/<modulo>/
+```
 
 Reglas:
 
-- Un servicio debe representar un caso de uso.
+- Un caso de uso representa una acción del negocio.
 - El nombre debe expresar una acción del negocio.
+- Se nombran con sufijo `.use-case.ts` (por ejemplo: `create-user.use-case.ts`).
 - Debe aplicar responsabilidad única.
 - Debe inyectar interfaces, no implementaciones concretas.
 - Puede usar entidades, DTOs e interfaces del dominio.
@@ -27,37 +38,29 @@ Reglas:
 - No debe conocer controladores, entidades TypeORM, SDKs o APIs concretas.
 - Debe retornar DTOs del dominio o respuestas propias del caso de uso.
 
-## Puertos
+## DTOs de aplicación
 
-Ubicación recomendada:
+Ubicación:
 
 ```text
-application/{module}/ports/
-application/common/ports/
+application/dtos/<modulo>/
 ```
 
 Reglas:
 
-- Definen contratos abstractos para servicios externos o capacidades técnicas.
-- Se nombran por lo que hacen, no por la tecnología usada.
-- No deben incluir detalles de implementación.
-- Deben permitir que infraestructura implemente el comportamiento.
-
-Ejemplos conceptuales de puertos:
-
-- Servicio de autenticación de tokens.
-- Servicio de cifrado.
-- Servicio de correo.
-- Servicio de almacenamiento.
-- Cliente HTTP externo.
-- Publicador de eventos.
+- Unico juego de DTOs para toda la aplicacion (R27); los controladores de infraestructura reutilizan estos DTOs, no se duplican en infraestructura.
+- Representan estructuras de datos para la comunicación entre capas.
+- Decorados con `class-validator` y `class-transformer` para validación técnica.
+- Decorados con `@ApiProperty` de `@nestjs/swagger` para documentación.
+- Deben incluir solo propiedades necesarias para el caso de uso.
+- Se nombran con sufijo `.dto.ts`.
 
 ## Mappers de aplicación
 
 Ubicación:
 
 ```text
-application/{module}/mappers/
+application/mappers/
 ```
 
 Reglas:
@@ -67,23 +70,14 @@ Reglas:
 - No deben consultar bases de datos.
 - No deben llamar servicios externos.
 - Deben hacer conversiones explícitas y controladas.
-
-## Módulos de aplicación
-
-Reglas:
-
-- Deben registrar servicios de casos de uso.
-- Deben exportar los servicios que infraestructura necesite.
-- No deben declarar controladores.
-- No deben configurar base de datos.
-- No deben importar módulos de infraestructura.
+- Se nombran con sufijo `.mapper.ts`.
 
 ## Dependencias permitidas
 
 Application puede depender de:
 
 - Domain.
-- Puertos propios.
+- Puertos propios (definidos en `domain/ports/out/` o `domain/ports/in/`).
 - Mappers de aplicación.
 - Decoradores mínimos de NestJS para inyección.
 

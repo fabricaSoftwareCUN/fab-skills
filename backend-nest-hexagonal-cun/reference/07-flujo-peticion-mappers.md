@@ -2,26 +2,30 @@
 
 ## Objetivo
 
-Definir cómo debe circular una solicitud desde HTTP hasta el dominio y de regreso a la respuesta.
+Definir cómo debe circular una solicitud desde HTTP hasta el dominio y de regreso a la respuesta, usando la estructura de STACK §3.2.
 
 ## Flujo estándar
 
 ```text
 HTTP Request
 ↓
-Controller
+Controller (infrastructure/controllers/)
 ↓
-DTO de infraestructura
+DTO (application/dtos/<modulo>/)  ← unico juego de DTOs (R27)
 ↓
-Mapper hacia dominio
+Mapper hacia dominio (application/mappers/)
 ↓
-Application Service
+Use Case (application/use-cases/<modulo>/)
 ↓
-Domain / Ports / Repository Interfaces
+Domain Service / Domain Entity (domain/services/, domain/entities/)
 ↓
-Infrastructure Adapter o Repository Implementation
+Port Out (domain/ports/out/)
 ↓
-Mapper hacia dominio o respuesta
+Adapter / Repository Implementation (infrastructure/adapters/)
+↓
+ORM Entity (infrastructure/persistence/<motor>/entities/)
+↓
+Mapper hacia dominio o respuesta (application/mappers/)
 ↓
 HTTP Response
 ```
@@ -29,7 +33,7 @@ HTTP Response
 ## Reglas del flujo
 
 - El controlador solo recibe, valida y delega.
-- La validación técnica ocurre en DTOs de infraestructura.
+- La validación técnica ocurre en DTOs (decorados con `class-validator`/`class-transformer`).
 - La transformación de datos ocurre en mappers.
 - El caso de uso se ejecuta en Application.
 - Las reglas del negocio viven en Domain y Application.
@@ -43,7 +47,7 @@ Los mappers son obligatorios para evitar acoplamiento.
 Deben existir cuando se transformen:
 
 - DTO HTTP a DTO de dominio.
-- Entidad de persistencia a entidad de dominio.
+- Entidad de persistencia (`.orm-entity.ts`) a entidad de dominio.
 - Entidad de dominio a entidad de persistencia.
 - Resultado del caso de uso a DTO de respuesta.
 
@@ -54,19 +58,20 @@ Deben existir cuando se transformen:
 - No consumen APIs externas.
 - No validan permisos.
 - Solo transforman estructuras de datos.
+- Se nombran con sufijo `.mapper.ts` y viven en `application/mappers/`.
 
 ## Flujo para creación de entidad
 
 Secuencia conceptual:
 
 1. Solicitud HTTP de creación.
-2. Controlador recibe DTO de infraestructura.
+2. Controlador recibe DTO de `application/dtos/<modulo>/` (R27).
 3. DTO valida forma y tipos de entrada.
 4. Mapper convierte a DTO de dominio.
-5. Servicio de aplicación ejecuta el caso de uso.
-6. Servicio consulta repositorios o puertos mediante interfaces.
+5. Caso de uso ejecuta la lógica de aplicación.
+6. Caso de uso consulta puertos de salida mediante interfaces.
 7. Dominio aplica reglas de creación.
-8. Repositorio concreto persiste datos.
+8. Adaptador de repositorio persiste datos (vía ORM entity).
 9. Mapper transforma resultado.
 10. Controlador responde.
 
@@ -78,8 +83,8 @@ Secuencia conceptual:
 2. Controlador recibe filtros.
 3. DTO valida filtros de entrada.
 4. Mapper convierte filtros a tipos de dominio.
-5. Servicio de aplicación aplica caso de uso.
-6. Repositorio ejecuta consulta concreta.
+5. Caso de uso aplica lógica de aplicación.
+6. Adaptador de repositorio ejecuta consulta concreta.
 7. Infraestructura mapea resultados a dominio.
 8. Mapper transforma dominio a respuesta.
 9. Controlador retorna respuesta paginada.

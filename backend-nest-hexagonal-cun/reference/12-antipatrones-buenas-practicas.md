@@ -18,10 +18,10 @@ Está prohibido que Domain importe o use:
 Está prohibido que Application:
 
 - Inyecte repositorios concretos.
-- Use entidades de persistencia.
+- Use entidades de persistencia (`.orm-entity.ts`).
 - Llame SDKs externos directamente.
 - Conozca detalles de base de datos.
-- Conozca controladores o DTOs HTTP.
+- Conozca controladores o DTOs tecnicos de infraestructura.
 
 ### Controladores con lógica de negocio
 
@@ -37,13 +37,17 @@ Está prohibido que los controladores:
 
 Está prohibido:
 
-- Retornar entidades TypeORM directamente.
+- Retornar entidades TypeORM (`.orm-entity.ts`) directamente.
 - Usar entidades de persistencia como entidades de dominio.
 - Compartir modelos de base de datos con Application.
 
 ### Mappers omitidos
 
 Está prohibido saltarse conversiones cuando cambian modelos entre capas.
+
+### Synchronize true
+
+Está prohibido usar `synchronize: true` en cualquier entorno. El esquema debe gestionarse exclusivamente mediante migraciones de TypeORM.
 
 ## Buenas prácticas obligatorias
 
@@ -55,13 +59,13 @@ Está prohibido saltarse conversiones cuando cambian modelos entre capas.
 
 ### Inversión de dependencias
 
-- Las interfaces viven hacia el centro.
-- Las implementaciones viven en infraestructura.
-- Los servicios dependen de abstracciones.
+- Las interfaces (puertos) viven hacia el centro (`domain/ports/`).
+- Las implementaciones (adaptadores) viven en infraestructura (`infrastructure/adapters/`).
+- Los casos de uso dependen de abstracciones.
 
 ### Validación en frontera
 
-- Los DTOs de infraestructura validan entrada HTTP.
+- Los DTOs de `application/dtos/<modulo>/` validan entrada HTTP.
 - El dominio valida reglas de negocio.
 - No mezclar validación técnica con regla de negocio.
 
@@ -74,7 +78,7 @@ Está prohibido saltarse conversiones cuando cambian modelos entre capas.
 ### Documentación
 
 - Documentar endpoints con Swagger.
-- Documentar DTOs de infraestructura.
+- Documentar DTOs de `application/dtos/<modulo>/`.
 - Documentar respuestas esperadas.
 - Documentar errores relevantes.
 
@@ -83,6 +87,12 @@ Está prohibido saltarse conversiones cuando cambian modelos entre capas.
 - Mantener settings en infraestructura.
 - No distribuir variables de entorno por todo el proyecto.
 - Tipar la configuración usada por los módulos.
+
+### Observabilidad
+
+- Exponer `/metrics` con Prometheus (cuatro señales de oro + métricas de negocio).
+- Health check endpoint disponible.
+- Instrumentar eventos de negocio significativos como parte de la Definition of Done.
 
 ## Criterios de calidad
 

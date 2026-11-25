@@ -1,24 +1,31 @@
 # Arquitectura de Proyecto Angular - Fabrica de Software CUN
 
 Referencia arquitectonica para proyectos Angular de la Fabrica de Software CUN.
-Basada en las convenciones de `angular-architect-fab` y adaptada al contexto institucional.
+Basada en STACK 4.1 (Estandares, Arquitectura y Stack Tecnologico) y adaptada al contexto institucional.
 
 ## Stack tecnologico
 
-| Tecnologia | Proposito |
-|---|---|
-| Angular 22+ | Framework principal (componentes standalone) |
-| Angular Material | Componentes UI base |
-| Bootstrap 5 | Grid y utilidades CSS |
-| Jest | Testing unitario |
-| TypeScript strict | Tipado estricto |
+| Tecnologia | Version minima | Proposito |
+|---|---|---|
+| Angular (`@angular/core`, `@angular/cli`) | 22.3 | Framework principal (componentes standalone) |
+| Node.js | 26 LTS | Runtime de desarrollo y build |
+| TypeScript | 6.0 (>=6.0 <6.1) | Tipado estricto. **No usar TypeScript 7** |
+| Angular Material | ultima estable | Componentes UI base |
+| Bootstrap 5 | ultima estable | Grid y utilidades CSS |
+| Jest | 30 | Testing unitario |
+| `jest-preset-angular` | 17 | Preset Jest para Angular |
+| Cypress | 16 | E2E (propiedad de QA) |
+| ESLint | 10 | Linting con flat config |
+| `angular-eslint` | 22 | Reglas ESLint para Angular |
+
+**Regla transversal**: verificar la version exacta con `npm view <paquete> version` antes de instalar y fijar la version exacta en manifiesto y lockfile.
 
 ## Estructura de carpetas
 
-```
+```text
 src/
 ├── app/
-│   ├── core/
+│   ├── core/                    # singletons: auth, guards, interceptors, services globales, config
 │   │   ├── guards/
 │   │   │   ├── auth.guard.ts
 │   │   │   ├── auth-logged.guard.ts
@@ -29,44 +36,68 @@ src/
 │   │   ├── services/
 │   │   │   ├── auth.service.ts
 │   │   │   ├── loading.service.ts
-│   │   │   └── error.service.ts
+│   │   │   ├── error.service.ts
+│   │   │   └── telemetry.service.ts
 │   │   ├── models/
 │   │   │   └── user.model.ts
-│   │   └── core.module.ts
-│   ├── shared/
+│   │   └── core.config.ts
+│   ├── features/                # lazy loaded, una carpeta por funcionalidad
+│   │   ├── auth/
+│   │   │   ├── components/
+│   │   │   │   ├── login/
+│   │   │   │   └── register/
+│   │   │   ├── views/
+│   │   │   ├── services/
+│   │   │   ├── interfaces/
+│   │   │   ├── mocks/
+│   │   │   └── auth.routes.ts
+│   │   ├── dashboard/
+│   │   │   ├── components/
+│   │   │   ├── views/
+│   │   │   ├── services/
+│   │   │   ├── interfaces/
+│   │   │   ├── mocks/
+│   │   │   └── dashboard.routes.ts
+│   │   └── users/
+│   │       ├── components/
+│   │       │   ├── user-list/
+│   │       │   └── user-detail/
+│   │       ├── views/
+│   │       ├── services/
+│   │       ├── interfaces/
+│   │       ├── mocks/
+│   │       └── users.routes.ts
+│   ├── shared/                  # reutilizable en toda la app
 │   │   ├── components/
-│   │   │   ├── header/
-│   │   │   ├── footer/
-│   │   │   ├── sidebar/
+│   │   │   ├── shared-button/
+│   │   │   ├── shared-input/
+│   │   │   ├── spinner/
 │   │   │   └── loading-spinner/
 │   │   ├── directives/
 │   │   ├── pipes/
+│   │   ├── interfaces/
+│   │   ├── mocks/               # *.mock.ts con Faker-js
+│   │   ├── services/
 │   │   └── utils/
-│   ├── modules/
-│   │   ├── auth/
-│   │   │   ├── login/
-│   │   │   ├── register/
-│   │   │   └── auth.routes.ts
-│   │   ├── dashboard/
-│   │   │   ├── dashboard.component.ts
-│   │   │   └── dashboard.routes.ts
-│   │   └── users/
-│   │       ├── user-list/
-│   │       ├── user-detail/
-│   │       └── users.routes.ts
-│   ├── app.component.ts
+│   ├── layout/                  # header, footer, sidebar, nav
+│   │   ├── header/
+│   │   ├── footer/
+│   │   ├── sidebar/
+│   │   └── layout.component.ts
+│   ├── app.routes.ts
 │   ├── app.config.ts
-│   └── app.routes.ts
+│   └── app.component.ts         # con --file-name-style-guide=2016 el CLI genera app.component.*, no app.ts
+├── assets/
+│   ├── images/
+│   ├── fonts/
+│   └── icons/
 ├── environments/
 │   ├── environment.ts
 │   └── environment.prod.ts
-├── assets/
-├── styles/
-│   ├── _variables.scss
-│   ├── _mixins.scss
-│   └── styles.scss
-└── index.html
+└── styles.scss
 ```
+
+> La carpeta `modules/` de FAB fue reemplazada por `features/` conforme a STACK 4.1.
 
 ## Patrones arquitectonicos
 
@@ -127,6 +158,8 @@ export class UserListComponent {
 }
 ```
 
+> `BehaviorSubject` solo para estado local simple ya existente; prohibido para estado global nuevo. NgRx o similar solo con justificacion del Tech Lead.
+
 ### 3. Interceptores HTTP funcionales
 
 #### Loading interceptor
@@ -186,6 +219,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
 ### 4. Rutas con lazy loading
 
+Todas las features usan lazy loading via `loadComponent` o `loadChildren`.
+
 ```typescript
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
@@ -195,20 +230,20 @@ export const routes: Routes = [
   {
     path: 'auth',
     canActivate: [authLoggedGuard],
-    loadComponent: () =>
-      import('./modules/auth/login/login.component').then(m => m.LoginComponent),
+    loadChildren: () =>
+      import('./features/auth/auth.routes').then(m => m.AUTH_ROUTES),
   },
   {
     path: 'dashboard',
     canActivate: [authGuard],
-    loadComponent: () =>
-      import('./modules/dashboard/dashboard.component').then(m => m.DashboardComponent),
+    loadChildren: () =>
+      import('./features/dashboard/dashboard.routes').then(m => m.DASHBOARD_ROUTES),
   },
   {
     path: 'users',
     canActivate: [authGuard],
     loadChildren: () =>
-      import('./modules/users/users.routes').then(m => m.USERS_ROUTES),
+      import('./features/users/users.routes').then(m => m.USERS_ROUTES),
   },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: '**', redirectTo: 'dashboard' },
@@ -225,18 +260,18 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./shared/components/layout/layout.component').then(m => m.LayoutComponent),
+      import('./layout/layout.component').then(m => m.LayoutComponent),
     canActivate: [authGuard],
     children: [
       {
         path: 'dashboard',
-        loadComponent: () =>
-          import('./modules/dashboard/dashboard.component').then(m => m.DashboardComponent),
+        loadChildren: () =>
+          import('./features/dashboard/dashboard.routes').then(m => m.DASHBOARD_ROUTES),
       },
       {
         path: 'users',
         loadChildren: () =>
-          import('./modules/users/users.routes').then(m => m.USERS_ROUTES),
+          import('./features/users/users.routes').then(m => m.USERS_ROUTES),
       },
     ],
   },
@@ -327,6 +362,77 @@ export class UserService {
 }
 ```
 
+### 9. Control de flujo moderno
+
+Usar `@for` con `track` (cumple el requisito de `trackBy` de STACK 4.4). PROHIBIDO `*ngIf`, `*ngFor` (deprecados desde Angular 20).
+
+```html
+@for (user of users(); track user.id) {
+  <app-user-card [user]="user" />
+} @empty {
+  <p>No hay usuarios para mostrar</p>
+}
+```
+
+### 10. Budgets en angular.json
+
+```json
+{
+  "projects": {
+    "mi-proyecto": {
+      "architect": {
+        "build": {
+          "configurations": {
+            "production": {
+              "aot": true,
+              "optimization": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+### 11. Telemetria
+
+Servicio de telemetria en `core/services/telemetry.service.ts` para eventos de Google Analytics / GTM y Core Web Vitals.
+
+```typescript
+import { Injectable, inject } from '@angular/core';
+import { Router } from '@angular/router';
+
+@Injectable({ providedIn: 'root' })
+export class TelemetryService {
+  private router = inject(Router);
+
+  trackEvent(eventName: string, params?: Record<string, unknown>): void {
+    if (typeof gtag !== 'undefined') {
+      gtag('event', eventName, params);
+    }
+  }
+
+  trackPageView(url: string): void {
+    if (typeof gtag !== 'undefined') {
+      gtag('config', 'GA_MEASUREMENT_ID', { page_path: url });
+    }
+  }
+}
+```
+
 ## Servicios obligatorios
 
 ### AuthService
@@ -335,7 +441,7 @@ export class UserService {
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 interface AuthResponse {
@@ -554,6 +660,8 @@ export const environment = {
 };
 ```
 
+> Los archivos en `environments/` nunca contienen secretos. Las credenciales y keys sensibles se gestionan via variables de entorno del contenedor o CI/CD.
+
 ## Angular Material - Modulos comunes
 
 Modulos de Angular Material utilizados con frecuencia en proyectos CUN:
@@ -590,20 +698,30 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 Verificacion obligatoria al iniciar un proyecto Angular para la Fabrica de Software CUN:
 
 1. [ ] Proyecto creado con `ng new` usando `--style=scss`, `--routing` y `--file-name-style-guide=2016`
-2. [ ] Angular 22 o superior verificado con `ng version` y `list_projects`
-3. [ ] Bloque `schematics` en `angular.json` con `type: component`, `style: scss` y `changeDetection: OnPush`
-4. [ ] TypeScript configurado en modo `strict`
-5. [ ] Estructura de carpetas `core/`, `shared/`, `modules/` creada
-6. [ ] Angular Material instalado y tema configurado
-7. [ ] Bootstrap 5 instalado (solo grid y utilidades)
-8. [ ] Jest configurado como test runner (reemplazando el runner del CLI)
-9. [ ] Archivos de environment creados (`environment.ts`, `environment.prod.ts`)
-10. [ ] `AuthService` implementado con login, logout, getToken, refreshToken
-11. [ ] `LoadingService` implementado con signals
-12. [ ] `ErrorService` implementado con handle y handleAlertHttp
-13. [ ] Interceptor de loading configurado
-14. [ ] Interceptor de autenticacion con refresh token configurado
-15. [ ] Guards de autenticacion (`authGuard`, `authLoggedGuard`) implementados
-16. [ ] Guard de roles (`roleGuard`) implementado
-17. [ ] Rutas principales configuradas con lazy loading
-18. [ ] Layout base con header, sidebar y footer creado
+2. [ ] Angular 22.3 o superior verificado con `ng version` y `list_projects`
+3. [ ] Node.js 26 LTS verificado con `node --version`
+4. [ ] TypeScript 6.0 verificado con `npx tsc --version` (>=6.0 <6.1, **no** 7)
+5. [ ] Bloque `schematics` en `angular.json` con `type: component`, `style: scss` y `changeDetection: OnPush`
+6. [ ] TypeScript configurado en modo `strict`
+7. [ ] Estructura de carpetas `core/`, `features/`, `shared/`, `layout/` creada
+8. [ ] Angular Material instalado y tema configurado
+9. [ ] Bootstrap 5 instalado (solo grid y utilidades)
+10. [ ] Jest 30 + `jest-preset-angular` 17 configurados como test runner
+11. [ ] ESLint 10 + `angular-eslint` 22 con `eslint.config.js` (flat config)
+12. [ ] Cypress 16 instalado para E2E
+13. [ ] Archivos de environment creados (`environment.ts`, `environment.prod.ts`) sin secretos
+14. [ ] `AuthService` implementado con login, logout, getToken, refreshToken
+15. [ ] `LoadingService` implementado con signals
+16. [ ] `ErrorService` implementado con handle y handleAlertHttp
+17. [ ] `TelemetryService` implementado para Google Analytics / GTM y Core Web Vitals
+18. [ ] Interceptor de loading configurado
+19. [ ] Interceptor de autenticacion con refresh token configurado
+20. [ ] Guards de autenticacion (`authGuard`, `authLoggedGuard`) implementados
+21. [ ] Guard de roles (`roleGuard`) implementado
+22. [ ] Rutas principales configuradas con lazy loading (`loadComponent` / `loadChildren`)
+23. [ ] Layout base con header, sidebar y footer creado en `layout/`
+24. [ ] Budgets configurados en `angular.json`
+25. [ ] `aot: true` y `optimization: true` en configuracion de produccion
+26. [ ] `Dockerfile` con imagen AWS del Tech Lead
+27. [ ] `sonar-project.properties` y `main.yml` presentes
+28. [ ] `.gitignore` conforme a R10
